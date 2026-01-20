@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure in calf stretch position - leaning against wall -->
+  <!-- Head -->
+  <circle cx="75" cy="55" r="16" fill="#64b5f6"/>
+
+  <!-- Torso - leaning forward -->
+  <path d="M75 71 L90 115" stroke="#4caf50" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- Front leg (bent, weight forward) -->
+  <path d="M90 115 L70 150" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M70 150 L65 170" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Back leg (straight, calf being stretched) -->
+  <path d="M90 115 L135 140" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M135 140 L155 170" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Arms pressing against wall -->
+  <path d="M80 80 L45 60" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <path d="M85 90 L50 75" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="43" cy="58" r="5" fill="#ffb74d"/>
+  <circle cx="48" cy="73" r="5" fill="#ffb74d"/>
+
+  <!-- Wall -->
+  <path d="M35 30 L35 120" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Calf stretch indicator -->
+  <path d="M140 155 Q155 145 160 160" stroke="#ff9800" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M160 160 L165 152 L163 163" fill="#ff9800"/>
+
+  <!-- Heel down indicator -->
+  <circle cx="155" cy="172" r="4" fill="#ff9800" opacity="0.8"/>
+
+  <!-- Ground line -->
+  <path d="M25 175 L175 175" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

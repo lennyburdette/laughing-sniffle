@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure lying on back with figure-4 position -->
+  <!-- Head (viewed from side, lying down) -->
+  <circle cx="35" cy="95" r="16" fill="#64b5f6"/>
+
+  <!-- Torso (lying horizontal) -->
+  <path d="M51 95 L100 95" stroke="#4caf50" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- Bottom leg (bent at knee, foot flat) -->
+  <path d="M100 95 L115 130" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M115 130 L100 160" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Crossed leg (ankle on opposite knee - the "4" shape) -->
+  <path d="M100 95 L130 80" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M130 80 L115 115" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Arms pulling leg toward chest -->
+  <path d="M75 95 L90 130" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <path d="M85 95 L105 130" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="97" cy="132" r="6" fill="#ffb74d"/>
+
+  <!-- Stretch indicator arrows -->
+  <path d="M135 75 Q150 70 160 80" stroke="#ff9800" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M160 80 L158 70 L165 78" fill="#ff9800"/>
+
+  <!-- Floor/mat line -->
+  <path d="M20 170 L180 170" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

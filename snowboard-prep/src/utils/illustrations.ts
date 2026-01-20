@@ -5,6 +5,12 @@ import warmup1JumpingJacks from '../assets/images/warmup-1-jumping-jacks.svg'
 import warmup2HipCircles from '../assets/images/warmup-2-hip-circles.svg'
 import warmup3AnkleCircles from '../assets/images/warmup-3-ankle-circles.svg'
 import warmup4TorsoRotations from '../assets/images/warmup-4-torso-rotations.svg'
+import mobility1WorldsGreatestStretch from '../assets/images/mobility-1-worlds-greatest-stretch.svg'
+import mobility2Figure4Stretch from '../assets/images/mobility-2-figure-4-stretch.svg'
+import mobility3HamstringHipHinge from '../assets/images/mobility-3-hamstring-hip-hinge.svg'
+import mobility4CalfStretch from '../assets/images/mobility-4-calf-stretch.svg'
+import mobility5AnkleDorsiflexion from '../assets/images/mobility-5-ankle-dorsiflexion.svg'
+import mobility6CatCow from '../assets/images/mobility-6-cat-cow.svg'
 
 // Map of activity IDs to their illustration paths
 const illustrationMap: Record<string, string> = {
@@ -13,6 +19,14 @@ const illustrationMap: Record<string, string> = {
   'warmup-2': warmup2HipCircles,
   'warmup-3': warmup3AnkleCircles,
   'warmup-4': warmup4TorsoRotations,
+  // Mobility & Stretching activities
+  'mobility-1': mobility1WorldsGreatestStretch,
+  'mobility-2': mobility2Figure4Stretch,
+  'mobility-3': mobility3HamstringHipHinge,
+  'mobility-4a': mobility4CalfStretch,
+  'mobility-4b': mobility4CalfStretch,
+  'mobility-5': mobility5AnkleDorsiflexion,
+  'mobility-6': mobility6CatCow,
 }
 
 // Fallback emoji icons for activities without illustrations

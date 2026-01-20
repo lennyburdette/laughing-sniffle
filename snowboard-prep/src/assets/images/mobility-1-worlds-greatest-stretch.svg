@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure in lunge position with torso rotation -->
+  <!-- Head -->
+  <circle cx="70" cy="75" r="16" fill="#64b5f6"/>
+
+  <!-- Torso - angled for lunge position -->
+  <path d="M70 91 L85 130" stroke="#4caf50" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- Front leg (bent knee in lunge) -->
+  <path d="M85 130 L60 155" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M60 155 L45 170" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Back leg (extended) -->
+  <path d="M85 130 L145 155" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M145 155 L165 170" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Ground arm -->
+  <path d="M75 100 L50 145" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="50" cy="148" r="6" fill="#ffb74d"/>
+
+  <!-- Reaching arm (toward sky with rotation) -->
+  <path d="M75 100 L55 45" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="53" cy="42" r="6" fill="#ffb74d"/>
+
+  <!-- Rotation arrow indicator -->
+  <path d="M40 60 Q25 75 30 95" stroke="#ff9800" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M30 95 L25 85 L35 90" fill="#ff9800"/>
+
+  <!-- Ground line -->
+  <path d="M25 175 L175 175" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

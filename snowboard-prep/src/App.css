@@ -87,6 +87,46 @@
   margin: 0;
 }
 
+.home-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.resume-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.resume-info {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  text-align: center;
+}
+
+.secondary-button {
+  background: #555;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 200px;
+  min-height: 50px;
+  touch-action: manipulation;
+}
+
+.secondary-button:active {
+  background: #444;
+  transform: scale(0.98);
+}
+
 .start-button {
   background: #4caf50;
   color: white;
@@ -207,8 +247,45 @@
   touch-action: manipulation;
 }
 
-.complete-actions button:first-child {
+.restart-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.restart-btn:active {
+  background: #388e3c;
+}
+
+.home-btn {
   background: #555;
+  color: white;
+}
+
+.home-btn:active {
+  background: #444;
+}
+
+.complete-message {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.complete-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.final-progress {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.perfect-badge {
+  color: #ffd700;
+  font-weight: bold;
 }
 
 .final-time {
@@ -456,4 +533,153 @@
 
 .next-btn:active {
   background: #388e3c;
+}
+
+/* Activity Screen Component */
+.activity-screen-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.75rem;
+  padding-bottom: 0.5rem;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.activity-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.progress-text {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.completed-badge {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.activity-completed .activity-name {
+  color: #81c784;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50 0%, #81c784 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease-out;
+}
+
+.activity-name {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.activity-description {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.activity-illustration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.illustration-placeholder-img {
+  width: 100%;
+  max-width: 200px;
+  height: 120px;
+  background: linear-gradient(135deg, #2a2a3e 0%, #3a3a4e 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+  opacity: 0.6;
+}
+
+.activity-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+}
+
+.activity-controls .activity-timer,
+.activity-controls .rep-counter {
+  flex-shrink: 0;
+}
+
+.activity-navigation {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  min-height: 56px;
+  touch-action: manipulation;
+  transition: transform 0.1s, background 0.2s;
+}
+
+.nav-btn:active {
+  transform: scale(0.96);
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-btn.back-btn {
+  background: #555;
+  color: white;
+}
+
+.nav-btn.back-btn:active:not(:disabled) {
+  background: #444;
+}
+
+.nav-btn.next-btn {
+  background: #2196f3;
+  color: white;
+}
+
+.nav-btn.next-btn:active {
+  background: #1976d2;
 }

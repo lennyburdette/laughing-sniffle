@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      includeAssets: ['favicon-32x32.png', 'favicon-16x16.png', 'apple-touch-icon.png'],
       manifest: {
         name: 'Snowboard Prep Workout',
         short_name: 'Snowboard Prep',
@@ -19,6 +19,8 @@ export default defineConfig({
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
+        id: '/snowboard-prep',
+        categories: ['fitness', 'health', 'sports'],
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -31,10 +33,25 @@ export default defineConfig({
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'pwa-maskable-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable'
+            purpose: 'maskable'
+          },
+          {
+            src: 'apple-touch-icon.png',
+            sizes: '180x180',
+            type: 'image/png'
+          }
+        ],
+        screenshots: [],
+        shortcuts: [
+          {
+            name: 'Start Workout',
+            short_name: 'Start',
+            description: 'Start your snowboard prep workout',
+            url: '/',
+            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
           }
         ]
       },

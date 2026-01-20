@@ -368,13 +368,13 @@
         "Splash screen configured",
         "Icons properly referenced in manifest and HTML"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "dependencies": ["task-017"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:57:00.000Z",
+        "completedAt": "2026-01-20T17:00:00.000Z",
+        "iteration": 18
       }
     }
   ]

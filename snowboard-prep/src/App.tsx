@@ -7,6 +7,7 @@ import { OfflineProvider } from './context/OfflineContext'
 import { SettingsProvider } from './context/SettingsContext'
 import OverallTimer from './components/OverallTimer'
 import OfflineIndicator from './components/OfflineIndicator'
+import { InstallPrompt } from './components/InstallPrompt'
 import Home from './pages/Home'
 import Activity from './pages/Activity'
 import Complete from './pages/Complete'
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/complete" element={<Complete />} />
                     <Route path="/settings" element={<Settings />} />
                   </Routes>
+                  <InstallPrompt />
                 </BrowserRouter>
               </WorkoutProvider>
             </TimerProvider>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure with raised foot doing ankle circles -->
+  <!-- Head -->
+  <circle cx="100" cy="35" r="16" fill="#64b5f6"/>
+
+  <!-- Body/Torso -->
+  <rect x="90" y="51" width="20" height="45" rx="8" fill="#4caf50"/>
+
+  <!-- Arms relaxed at sides -->
+  <path d="M90 58 L75 90" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <path d="M110 58 L125 90" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Standing leg -->
+  <path d="M95 96 L92 155" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Raised leg (thigh) -->
+  <path d="M105 96 L130 115" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Raised leg (calf - bent to show foot) -->
+  <path d="M130 115 L145 145" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Foot -->
+  <ellipse cx="150" cy="155" rx="12" ry="8" fill="#2196f3"/>
+
+  <!-- Ankle circle indicator -->
+  <circle cx="150" cy="155" r="22" stroke="#ff9800" stroke-width="3" stroke-dasharray="6 4" fill="none"/>
+
+  <!-- Circular motion arrow -->
+  <path d="M170 148 L178 145 L175 158" stroke="#ff9800" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Zoom indicator for ankle area -->
+  <circle cx="150" cy="155" r="35" stroke="#81c784" stroke-width="2" stroke-dasharray="3 6" fill="none" opacity="0.5"/>
+
+  <!-- Ground line -->
+  <path d="M50 175 L130 175" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

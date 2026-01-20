@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure standing on one leg doing hip circles -->
+  <!-- Head -->
+  <circle cx="100" cy="40" r="18" fill="#64b5f6"/>
+
+  <!-- Body/Torso -->
+  <rect x="90" y="58" width="20" height="50" rx="8" fill="#4caf50"/>
+
+  <!-- Arms on hips (simplified) -->
+  <path d="M90 70 L75 85" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <path d="M110 70 L125 85" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Standing leg (straight) -->
+  <path d="M100 108 L100 170" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Raised leg bent at knee -->
+  <path d="M100 108 L130 100" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M130 100 L125 130" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Hip circle indicator (dashed) -->
+  <ellipse cx="115" cy="95" rx="25" ry="20" stroke="#ff9800" stroke-width="3" stroke-dasharray="8 4" fill="none" transform="rotate(-15 115 95)"/>
+
+  <!-- Circular motion arrow -->
+  <path d="M138 85 L145 78 L142 92" stroke="#ff9800" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Ground line -->
+  <path d="M50 175 L150 175" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

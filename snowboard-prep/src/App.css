@@ -72,6 +72,34 @@
   background: rgba(255, 255, 255, 0.25);
 }
 
+/* Sound Toggle */
+.sound-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s, border-color 0.2s;
+  align-self: flex-end;
+  min-height: 44px;
+}
+
+.sound-toggle:active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sound-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
 /* Home screen */
 .home-screen {
   display: flex;
@@ -854,9 +882,17 @@
   flex-shrink: 0;
 }
 
+.activity-illustration-img {
+  width: 100%;
+  max-width: 160px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
 .illustration-placeholder-img {
   width: 100%;
-  max-width: 200px;
+  max-width: 160px;
   height: 120px;
   background: linear-gradient(135deg, #2a2a3e 0%, #3a3a4e 100%);
   border-radius: 12px;

@@ -1,7 +1,8 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import type { Activity } from '../data/workoutTypes'
 import ActivityTimer from './ActivityTimer'
 import RepCounter from './RepCounter'
+import { getIllustration, getFallbackIcon } from '../utils/illustrations'
 
 interface ActivityScreenProps {
   activity: Activity
@@ -39,6 +40,11 @@ function ActivityScreen({
   const isFirstActivity = currentIndex === 0
   const isLastActivity = currentIndex === totalActivities - 1
 
+  // Get illustration for current activity
+  const illustration = getIllustration(activity.id)
+  const fallbackIcon = getFallbackIcon(activity.id)
+  const [imageError, setImageError] = useState(false)
+
   // Get duration - use first value of range if available, otherwise duration
   const getDuration = (): number => {
     if (activity.duration) return activity.duration
@@ -75,11 +81,20 @@ function ActivityScreen({
       {/* Activity description */}
       <p className="activity-description">{activity.description}</p>
 
-      {/* Illustration placeholder */}
+      {/* Activity illustration */}
       <div className="activity-illustration">
-        <div className="illustration-placeholder-img">
-          <span className="placeholder-icon">🏋️</span>
-        </div>
+        {illustration && !imageError ? (
+          <img
+            src={illustration}
+            alt={activity.name}
+            className="activity-illustration-img"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="illustration-placeholder-img">
+            <span className="placeholder-icon">{fallbackIcon}</span>
+          </div>
+        )}
       </div>
 
       {/* Timer or Rep Counter */}

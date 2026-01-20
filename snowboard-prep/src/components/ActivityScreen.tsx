@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import type { Activity } from '../data/workoutTypes'
 import ActivityTimer from './ActivityTimer'
 import RepCounter from './RepCounter'
@@ -44,6 +44,13 @@ function ActivityScreen({
   const illustration = getIllustration(activity.id)
   const fallbackIcon = getFallbackIcon(activity.id)
   const [imageError, setImageError] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
+
+  // Reset image state when activity changes
+  useEffect(() => {
+    setImageError(false)
+    setImageLoaded(false)
+  }, [activity.id])
 
   // Get duration - use first value of range if available, otherwise duration
   const getDuration = (): number => {
@@ -84,12 +91,21 @@ function ActivityScreen({
       {/* Activity illustration */}
       <div className="activity-illustration">
         {illustration && !imageError ? (
-          <img
-            src={illustration}
-            alt={activity.name}
-            className="activity-illustration-img"
-            onError={() => setImageError(true)}
-          />
+          <>
+            {!imageLoaded && (
+              <div className="illustration-placeholder-img">
+                <span className="placeholder-icon">{fallbackIcon}</span>
+              </div>
+            )}
+            <img
+              src={illustration}
+              alt={activity.name}
+              className={`activity-illustration-img ${!imageLoaded ? 'loading' : ''}`}
+              onLoad={() => setImageLoaded(true)}
+              onError={() => setImageError(true)}
+              style={{ display: imageLoaded ? 'block' : 'none' }}
+            />
+          </>
         ) : (
           <div className="illustration-placeholder-img">
             <span className="placeholder-icon">{fallbackIcon}</span>

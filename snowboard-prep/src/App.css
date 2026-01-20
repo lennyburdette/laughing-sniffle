@@ -880,19 +880,27 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
+  min-height: 100px;
 }
 
 .activity-illustration-img {
   width: 100%;
-  max-width: 160px;
-  height: 120px;
+  max-width: 180px;
+  height: auto;
+  min-height: 100px;
+  max-height: 140px;
   object-fit: contain;
   border-radius: 12px;
+  transition: opacity 0.3s ease;
+}
+
+.activity-illustration-img.loading {
+  opacity: 0;
 }
 
 .illustration-placeholder-img {
   width: 100%;
-  max-width: 160px;
+  max-width: 180px;
   height: 120px;
   background: linear-gradient(135deg, #2a2a3e 0%, #3a3a4e 100%);
   border-radius: 12px;
@@ -905,6 +913,44 @@
 .placeholder-icon {
   font-size: 3rem;
   opacity: 0.6;
+}
+
+/* Responsive illustration sizing */
+@media (min-width: 375px) {
+  .activity-illustration-img {
+    max-width: 200px;
+    max-height: 160px;
+  }
+  .illustration-placeholder-img {
+    max-width: 200px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 414px) {
+  .activity-illustration-img {
+    max-width: 220px;
+    max-height: 180px;
+  }
+  .illustration-placeholder-img {
+    max-width: 220px;
+    height: 160px;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  .activity-illustration {
+    min-height: 80px;
+  }
+  .activity-illustration-img {
+    max-width: 140px;
+    max-height: 100px;
+  }
+  .illustration-placeholder-img {
+    max-width: 140px;
+    height: 80px;
+  }
 }
 
 .activity-controls {

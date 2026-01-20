@@ -217,3 +217,124 @@
   color: #4caf50;
   font-variant-numeric: tabular-nums;
 }
+
+/* Activity Timer Component */
+.activity-timer {
+  background: #2a2a3e;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.activity-timer.completed {
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+}
+
+.timer-countdown {
+  font-size: 4.5rem;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  line-height: 1;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.timer-countdown.paused {
+  color: rgba(255, 255, 255, 0.5);
+  animation: blink 1s ease-in-out infinite;
+}
+
+.timer-countdown.flash {
+  animation: flash-complete 0.5s ease-in-out 3;
+}
+
+@keyframes flash-complete {
+  0%, 100% {
+    color: #fff;
+    transform: scale(1);
+  }
+  50% {
+    color: #4caf50;
+    transform: scale(1.05);
+  }
+}
+
+.timer-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.timer-btn {
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  min-height: 56px;
+  touch-action: manipulation;
+  transition: transform 0.1s, background 0.2s;
+}
+
+.timer-btn:active {
+  transform: scale(0.96);
+}
+
+.start-btn {
+  background: #4caf50;
+  color: white;
+  min-width: 200px;
+  font-size: 1.5rem;
+  padding: 1.25rem 2.5rem;
+}
+
+.start-btn:active {
+  background: #388e3c;
+}
+
+.pause-btn {
+  background: #ff9800;
+  color: white;
+  min-width: 200px;
+  font-size: 1.5rem;
+  padding: 1.25rem 2.5rem;
+}
+
+.pause-btn:active {
+  background: #f57c00;
+}
+
+.resume-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.resume-btn:active {
+  background: #388e3c;
+}
+
+.reset-btn {
+  background: #555;
+  color: white;
+}
+
+.reset-btn:active {
+  background: #444;
+}
+
+.completion-message {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4caf50;
+  width: 100%;
+  text-align: center;
+}

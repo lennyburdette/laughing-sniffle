@@ -338,3 +338,122 @@
   width: 100%;
   text-align: center;
 }
+
+/* Rep Counter Component */
+.rep-counter {
+  background: #2a2a3e;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.rep-counter.completed {
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+}
+
+.side-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.side-label {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #64b5f6;
+  text-transform: capitalize;
+}
+
+.side-progress {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.rep-display {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5rem;
+  line-height: 1;
+}
+
+.rep-display.flash {
+  animation: flash-complete 0.5s ease-in-out 3;
+}
+
+.current-rep {
+  font-size: 5rem;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+
+.rep-separator {
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.target-rep {
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.rep-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rep-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50 0%, #81c784 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease-out;
+}
+
+.rep-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.rep-btn {
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  min-height: 56px;
+  touch-action: manipulation;
+  transition: transform 0.1s, background 0.2s;
+}
+
+.rep-btn:active {
+  transform: scale(0.96);
+}
+
+.next-btn {
+  background: #4caf50;
+  color: white;
+  min-width: 200px;
+  font-size: 1.5rem;
+  padding: 1.25rem 2.5rem;
+}
+
+.next-btn:active {
+  background: #388e3c;
+}

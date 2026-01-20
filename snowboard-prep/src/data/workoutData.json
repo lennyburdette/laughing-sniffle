@@ -1,0 +1,284 @@
+{
+  "version": "1.0",
+  "workout": {
+    "name": "Snowboard Prep Routine",
+    "description": "Daily 25-30 minute routine designed to reduce soreness and injury risk, with special focus on hips, knees, ankles, and single-leg strength.",
+    "estimatedDuration": "25-30 minutes",
+    "totalActivities": 18
+  },
+  "sections": [
+    {
+      "id": "warmup",
+      "name": "Warm-up",
+      "order": 1,
+      "estimatedDuration": "5 minutes",
+      "activities": [
+        {
+          "id": "warmup-1",
+          "name": "March in Place or Jumping Jacks",
+          "type": "timer",
+          "duration": 60,
+          "side": null,
+          "description": "Light cardio to get blood flowing. March in place with high knees or do jumping jacks at a comfortable pace."
+        },
+        {
+          "id": "warmup-2",
+          "name": "Hip Circles",
+          "type": "reps",
+          "count": 10,
+          "side": "each",
+          "sideLabels": ["clockwise", "counter-clockwise"],
+          "description": "Stand on one leg, lift the other knee, and rotate your hip in circles. Do 10 in each direction, then switch legs."
+        },
+        {
+          "id": "warmup-3",
+          "name": "Ankle Circles",
+          "type": "reps",
+          "count": 10,
+          "side": "each",
+          "sideLabels": ["left foot clockwise", "left foot counter-clockwise", "right foot clockwise", "right foot counter-clockwise"],
+          "description": "Lift one foot and rotate your ankle in circles. Do 10 each direction per foot."
+        },
+        {
+          "id": "warmup-4",
+          "name": "Torso Rotations",
+          "type": "reps",
+          "count": 20,
+          "side": null,
+          "description": "Stand with feet shoulder-width apart, hands on hips or extended. Rotate your torso left and right, keeping hips stable."
+        }
+      ]
+    },
+    {
+      "id": "mobility",
+      "name": "Mobility & Stretching",
+      "order": 2,
+      "estimatedDuration": "10 minutes",
+      "activities": [
+        {
+          "id": "mobility-1",
+          "name": "World's Greatest Stretch",
+          "type": "reps",
+          "count": 5,
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Lunge forward, place opposite hand on ground, rotate torso and reach toward sky. Hold briefly at the top of each rep."
+        },
+        {
+          "id": "mobility-2",
+          "name": "Figure-4 Stretch",
+          "type": "timer",
+          "duration": 30,
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Lie on your back, cross one ankle over opposite knee, and pull the bottom leg toward your chest. Feel the stretch in your glute and hip."
+        },
+        {
+          "id": "mobility-3",
+          "name": "Hamstring Hip-Hinge Stretch",
+          "type": "timer",
+          "duration": 30,
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Stand with one foot slightly forward, hinge at hips keeping back straight, feel stretch in back of extended leg."
+        },
+        {
+          "id": "mobility-4a",
+          "name": "Calf Stretch (Straight Knee)",
+          "type": "timer",
+          "duration": 30,
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Step one foot back, keep back leg straight and heel on ground. Lean forward into front leg to stretch the calf."
+        },
+        {
+          "id": "mobility-4b",
+          "name": "Calf Stretch (Bent Knee)",
+          "type": "timer",
+          "duration": 30,
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Same position as straight knee stretch, but bend the back knee slightly to target the soleus muscle deeper in the calf."
+        },
+        {
+          "id": "mobility-5",
+          "name": "Ankle Dorsiflexion Stretch",
+          "type": "reps",
+          "count": 10,
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Kneel with one foot forward, knee over toes. Slowly push knee forward past toes while keeping heel down. Move slowly and controlled."
+        },
+        {
+          "id": "mobility-6",
+          "name": "Cat-Cow",
+          "type": "reps",
+          "count": 10,
+          "side": null,
+          "description": "On hands and knees, alternate between arching back up (cat) and dropping belly down (cow). Move slowly and breathe deeply."
+        }
+      ]
+    },
+    {
+      "id": "strength",
+      "name": "Strength & Stability",
+      "order": 3,
+      "estimatedDuration": "10-12 minutes",
+      "activities": [
+        {
+          "id": "strength-1",
+          "name": "Single-Leg Balance",
+          "type": "timer",
+          "duration": 30,
+          "durationRange": [30, 45],
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Stand on one leg, keep core engaged. For more challenge, close your eyes or stand on an unstable surface.",
+          "reducedDay": true
+        },
+        {
+          "id": "strength-2",
+          "name": "Single-Leg Romanian Deadlift",
+          "type": "reps",
+          "count": 8,
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Stand on one leg, hinge forward at hips while extending other leg behind. Keep back straight and return to standing.",
+          "reducedDay": false
+        },
+        {
+          "id": "strength-3",
+          "name": "Split Squats",
+          "type": "reps",
+          "count": 8,
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Stand in a split stance with one foot forward. Lower back knee toward ground, then push back up. Keep front knee over ankle.",
+          "reducedDay": true
+        },
+        {
+          "id": "strength-4",
+          "name": "Glute Bridges",
+          "type": "reps",
+          "count": 12,
+          "side": null,
+          "description": "Lie on back with knees bent, feet flat. Push through heels to lift hips toward ceiling, squeeze glutes at top.",
+          "reducedDay": false
+        },
+        {
+          "id": "strength-5",
+          "name": "Dead Bug",
+          "type": "reps",
+          "count": 6,
+          "countRange": [6, 8],
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Lie on back, arms extended up, knees at 90 degrees. Slowly lower opposite arm and leg while keeping lower back pressed to floor.",
+          "reducedDay": true
+        },
+        {
+          "id": "strength-6",
+          "name": "Side Plank",
+          "type": "timer",
+          "duration": 20,
+          "durationRange": [20, 30],
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Lie on side, prop up on elbow, lift hips to create straight line from head to feet. Keep core tight.",
+          "reducedDay": false
+        }
+      ]
+    },
+    {
+      "id": "recovery",
+      "name": "Optional Recovery",
+      "order": 4,
+      "estimatedDuration": "3 minutes",
+      "optional": true,
+      "activities": [
+        {
+          "id": "recovery-1",
+          "name": "Deep Squat Hold",
+          "type": "timer",
+          "duration": 30,
+          "durationRange": [30, 60],
+          "side": null,
+          "description": "Squat down as deep as comfortable with heels on ground if possible. Hold and breathe. Use support if needed."
+        },
+        {
+          "id": "recovery-2",
+          "name": "Gentle Spinal Twist",
+          "type": "timer",
+          "duration": 30,
+          "side": "each",
+          "sideLabels": ["left", "right"],
+          "description": "Lie on back, bring one knee across body while keeping shoulders flat. Look opposite direction and relax into the stretch."
+        }
+      ]
+    }
+  ],
+  "weeklyStructure": {
+    "description": "Follow this weekly structure for optimal results",
+    "days": [
+      {
+        "day": 1,
+        "name": "Monday",
+        "type": "full",
+        "sections": ["warmup", "mobility", "strength", "recovery"],
+        "description": "Full strength routine"
+      },
+      {
+        "day": 2,
+        "name": "Tuesday",
+        "type": "reduced",
+        "sections": ["warmup", "mobility", "strength"],
+        "strengthFilter": "reducedDay",
+        "description": "Reduced strength (balance, split squats, core)"
+      },
+      {
+        "day": 3,
+        "name": "Wednesday",
+        "type": "full",
+        "sections": ["warmup", "mobility", "strength", "recovery"],
+        "description": "Full strength routine"
+      },
+      {
+        "day": 4,
+        "name": "Thursday",
+        "type": "reduced",
+        "sections": ["warmup", "mobility", "strength"],
+        "strengthFilter": "reducedDay",
+        "description": "Reduced strength (balance, split squats, core)"
+      },
+      {
+        "day": 5,
+        "name": "Friday",
+        "type": "full",
+        "sections": ["warmup", "mobility", "strength", "recovery"],
+        "description": "Full strength routine"
+      },
+      {
+        "day": 6,
+        "name": "Saturday",
+        "type": "reduced",
+        "sections": ["warmup", "mobility", "strength"],
+        "strengthFilter": "reducedDay",
+        "description": "Reduced strength (balance, split squats, core)"
+      },
+      {
+        "day": 7,
+        "name": "Sunday",
+        "type": "mobility",
+        "sections": ["warmup", "mobility"],
+        "description": "Mobility only - rest day"
+      }
+    ]
+  },
+  "tips": [
+    "Always warm up before stretching",
+    "Hydrate aggressively",
+    "Use lift footrests whenever possible",
+    "Light cardio on rest days improves recovery",
+    "Boot fit and ankle mobility matter more than you think"
+  ]
+}

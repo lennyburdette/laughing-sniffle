@@ -77,27 +77,82 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   flex: 1;
-  gap: 1.5rem;
+  gap: 1.25rem;
+  padding-bottom: 1rem;
+  overflow-y: auto;
+}
+
+.home-header {
+  text-align: center;
 }
 
 .home-screen h1 {
   font-size: 1.75rem;
   margin: 0;
+  color: #fff;
+  line-height: 1.2;
 }
 
 .home-subtitle {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
+  font-size: 1.125rem;
+  color: #4caf50;
+  margin: 0.25rem 0 0 0;
+  font-weight: 600;
 }
 
+.home-description {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Today's Schedule Card */
+.today-card {
+  width: 100%;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.today-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.today-label {
+  font-weight: bold;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.today-type {
+  background: rgba(76, 175, 80, 0.3);
+  color: #81c784;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.today-description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Resume Section */
 .resume-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   width: 100%;
 }
 
@@ -106,6 +161,199 @@
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
   text-align: center;
+}
+
+/* Section Jump */
+.section-jump {
+  width: 100%;
+}
+
+.section-jump-title {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.75rem 0;
+  text-align: center;
+}
+
+.section-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.section-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  background: #2a2a3e;
+  border: none;
+  border-radius: 10px;
+  padding: 0.875rem 1rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.section-btn:active {
+  background: #3a3a4e;
+  transform: scale(0.98);
+}
+
+.section-icon {
+  font-size: 1.25rem;
+}
+
+.section-name {
+  flex: 1;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.section-duration {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Weekly Toggle Button */
+.weekly-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.weekly-toggle:active {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Weekly Structure */
+.weekly-structure {
+  width: 100%;
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.weekly-title {
+  font-size: 1rem;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+}
+
+.weekly-description {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.weekly-days {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.5rem;
+}
+
+.day-card {
+  background: #2a2a3e;
+  border-radius: 8px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.day-card.today {
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.day-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.day-name {
+  font-weight: bold;
+  color: #fff;
+  font-size: 0.875rem;
+}
+
+.day-type-badge {
+  font-size: 0.625rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.day-type-badge.full {
+  background: rgba(76, 175, 80, 0.3);
+  color: #81c784;
+}
+
+.day-type-badge.reduced {
+  background: rgba(255, 152, 0, 0.3);
+  color: #ffb74d;
+}
+
+.day-type-badge.mobility {
+  background: rgba(33, 150, 243, 0.3);
+  color: #64b5f6;
+}
+
+.day-description {
+  margin: 0;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.3;
+}
+
+/* Tips Section */
+.tips-section {
+  width: 100%;
+  background: #2a2a3e;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.tips-title {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.75rem 0;
+}
+
+.tips-list {
+  margin: 0;
+  padding: 0 0 0 1.25rem;
+  list-style-type: disc;
+}
+
+.tip-item {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.5rem;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.tip-item:last-child {
+  margin-bottom: 0;
 }
 
 .secondary-button {

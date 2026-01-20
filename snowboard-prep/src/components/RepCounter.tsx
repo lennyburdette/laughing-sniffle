@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { useSound } from '../context/SoundContext'
 
 interface RepCounterProps {
   targetCount: number
@@ -13,6 +14,7 @@ function RepCounter({ targetCount, side, sideLabels, onComplete }: RepCounterPro
   const [currentRep, setCurrentRep] = useState(1)
   const [currentSideIndex, setCurrentSideIndex] = useState(0)
   const [repState, setRepState] = useState<RepState>('counting')
+  const { playSetComplete, playClick, vibrate } = useSound()
 
   // Determine the sides to track
   const sides = side === 'each' && sideLabels ? sideLabels : [null]
@@ -21,65 +23,14 @@ function RepCounter({ targetCount, side, sideLabels, onComplete }: RepCounterPro
   const isLastRep = currentRep === targetCount
   const currentSideLabel = sides[currentSideIndex]
 
-  const playCompletionSound = useCallback(() => {
-    try {
-      const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
-
-      const playBeep = (time: number, frequency: number) => {
-        const oscillator = audioContext.createOscillator()
-        const gainNode = audioContext.createGain()
-
-        oscillator.connect(gainNode)
-        gainNode.connect(audioContext.destination)
-
-        oscillator.frequency.value = frequency
-        oscillator.type = 'sine'
-
-        gainNode.gain.setValueAtTime(0.3, time)
-        gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.3)
-
-        oscillator.start(time)
-        oscillator.stop(time + 0.3)
-      }
-
-      const now = audioContext.currentTime
-      playBeep(now, 523.25)      // C5
-      playBeep(now + 0.15, 659.25) // E5
-      playBeep(now + 0.3, 783.99)  // G5
-    } catch (error) {
-      console.warn('Audio not supported:', error)
-    }
-  }, [])
-
-  const playClickSound = useCallback(() => {
-    try {
-      const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
-      const oscillator = audioContext.createOscillator()
-      const gainNode = audioContext.createGain()
-
-      oscillator.connect(gainNode)
-      gainNode.connect(audioContext.destination)
-
-      oscillator.frequency.value = 440
-      oscillator.type = 'sine'
-
-      gainNode.gain.setValueAtTime(0.15, audioContext.currentTime)
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1)
-
-      oscillator.start(audioContext.currentTime)
-      oscillator.stop(audioContext.currentTime + 0.1)
-    } catch (error) {
-      console.warn('Audio not supported:', error)
-    }
-  }, [])
-
   const advanceRep = useCallback(() => {
-    playClickSound()
+    playClick()
 
     if (isLastRep && isLastSide) {
       // All reps and sides complete
       setRepState('completed')
-      playCompletionSound()
+      playSetComplete()
+      vibrate([100, 50, 100, 50, 100]) // Triple vibration pattern
       // Auto-advance after a short delay
       setTimeout(() => {
         onComplete?.()
@@ -92,7 +43,7 @@ function RepCounter({ targetCount, side, sideLabels, onComplete }: RepCounterPro
       // Just advance the rep count
       setCurrentRep(prev => prev + 1)
     }
-  }, [isLastRep, isLastSide, playClickSound, playCompletionSound, onComplete])
+  }, [isLastRep, isLastSide, playClick, playSetComplete, vibrate, onComplete])
 
   const reset = useCallback(() => {
     setCurrentRep(1)

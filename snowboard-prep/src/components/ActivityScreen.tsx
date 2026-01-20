@@ -1,8 +1,9 @@
-import { useCallback, useState, useEffect } from 'react'
+import { useCallback, useState, useEffect, useRef } from 'react'
 import type { Activity } from '../data/workoutTypes'
 import ActivityTimer from './ActivityTimer'
 import RepCounter from './RepCounter'
 import { getIllustration, getFallbackIcon } from '../utils/illustrations'
+import { useSettings } from '../context/SettingsContext'
 
 interface ActivityScreenProps {
   activity: Activity
@@ -25,17 +26,73 @@ function ActivityScreen({
   onActivityComplete,
   isCompleted = false
 }: ActivityScreenProps) {
+  const { settings } = useSettings()
+  const [isResting, setIsResting] = useState(false)
+  const [restSeconds, setRestSeconds] = useState(0)
+  const restIntervalRef = useRef<number | null>(null)
+
+  // Clear rest interval on unmount or activity change
+  useEffect(() => {
+    return () => {
+      if (restIntervalRef.current !== null) {
+        clearInterval(restIntervalRef.current)
+        restIntervalRef.current = null
+      }
+    }
+  }, [])
+
+  // Reset rest state when activity changes
+  useEffect(() => {
+    setIsResting(false)
+    setRestSeconds(0)
+    if (restIntervalRef.current !== null) {
+      clearInterval(restIntervalRef.current)
+      restIntervalRef.current = null
+    }
+  }, [activity.id])
+
   const handleActivityComplete = useCallback(() => {
     // Notify parent that activity is complete (for tracking)
     if (onActivityComplete) {
       onActivityComplete()
     }
-    // Auto-advance to next after a short delay on completion
-    // The timer/rep counter already handles their own completion sound
-    setTimeout(() => {
-      onNext()
-    }, 500)
-  }, [onNext, onActivityComplete])
+
+    // If rest time is configured and not the last activity, show rest countdown
+    const isLast = currentIndex === totalActivities - 1
+    if (settings.restTimeBetweenActivities > 0 && !isLast) {
+      setIsResting(true)
+      setRestSeconds(settings.restTimeBetweenActivities)
+
+      restIntervalRef.current = window.setInterval(() => {
+        setRestSeconds(prev => {
+          if (prev <= 1) {
+            if (restIntervalRef.current !== null) {
+              clearInterval(restIntervalRef.current)
+              restIntervalRef.current = null
+            }
+            setIsResting(false)
+            onNext()
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    } else {
+      // Auto-advance to next after a short delay on completion
+      setTimeout(() => {
+        onNext()
+      }, 500)
+    }
+  }, [onNext, onActivityComplete, settings.restTimeBetweenActivities, currentIndex, totalActivities])
+
+  const skipRest = useCallback(() => {
+    if (restIntervalRef.current !== null) {
+      clearInterval(restIntervalRef.current)
+      restIntervalRef.current = null
+    }
+    setIsResting(false)
+    onNext()
+  }, [onNext])
 
   const isFirstActivity = currentIndex === 0
   const isLastActivity = currentIndex === totalActivities - 1
@@ -64,6 +121,23 @@ function ActivityScreen({
     if (activity.count) return activity.count
     if (activity.countRange) return activity.countRange[0]
     return 10 // fallback
+  }
+
+  // Show rest screen between activities
+  if (isResting) {
+    return (
+      <div className="activity-screen-container rest-screen">
+        <div className="rest-content">
+          <div className="rest-icon">⏸️</div>
+          <h2 className="rest-title">Rest</h2>
+          <div className="rest-countdown">{restSeconds}</div>
+          <p className="rest-message">Get ready for the next exercise</p>
+          <button className="timer-btn start-btn" onClick={skipRest}>
+            SKIP REST
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (

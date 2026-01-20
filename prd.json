@@ -327,13 +327,13 @@
         "Optional: vibration on completion",
         "Settings persist across sessions"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "low",
       "dependencies": ["task-008"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:50:32.091Z",
+        "completedAt": "2026-01-20T17:10:00.000Z",
+        "iteration": 17
       }
     },
     {

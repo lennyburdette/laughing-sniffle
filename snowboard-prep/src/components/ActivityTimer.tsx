@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useSound } from '../context/SoundContext'
+import { useSettings } from '../context/SettingsContext'
 
 interface ActivityTimerProps {
   duration: number // in seconds
@@ -6,13 +8,15 @@ interface ActivityTimerProps {
   autoStart?: boolean
 }
 
-type TimerState = 'idle' | 'running' | 'paused' | 'completed'
+type TimerState = 'idle' | 'running' | 'paused' | 'completed' | 'buffer'
 
 function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTimerProps) {
   const [remainingSeconds, setRemainingSeconds] = useState(duration)
   const [timerState, setTimerState] = useState<TimerState>('idle')
+  const [bufferSeconds, setBufferSeconds] = useState(0)
   const intervalRef = useRef<number | null>(null)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const { playTimerComplete, vibrate } = useSound()
+  const { settings } = useSettings()
 
   const clearTimerInterval = useCallback(() => {
     if (intervalRef.current !== null) {
@@ -21,45 +25,18 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
     }
   }, [])
 
-  const playCompletionSound = useCallback(() => {
-    // Create audio context for timer completion sound
-    try {
-      const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
-
-      // Create a pleasant completion beep sequence
-      const playBeep = (time: number, frequency: number) => {
-        const oscillator = audioContext.createOscillator()
-        const gainNode = audioContext.createGain()
-
-        oscillator.connect(gainNode)
-        gainNode.connect(audioContext.destination)
-
-        oscillator.frequency.value = frequency
-        oscillator.type = 'sine'
-
-        gainNode.gain.setValueAtTime(0.3, time)
-        gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.3)
-
-        oscillator.start(time)
-        oscillator.stop(time + 0.3)
-      }
-
-      // Play 3 ascending beeps
-      const now = audioContext.currentTime
-      playBeep(now, 523.25)      // C5
-      playBeep(now + 0.15, 659.25) // E5
-      playBeep(now + 0.3, 783.99)  // G5
-    } catch (error) {
-      console.warn('Audio not supported:', error)
-    }
-  }, [])
-
   const start = useCallback(() => {
     if (timerState === 'idle' || timerState === 'completed') {
-      setRemainingSeconds(duration)
-      setTimerState('running')
+      // If buffer time is set, start with buffer countdown
+      if (settings.timerBufferTime > 0) {
+        setBufferSeconds(settings.timerBufferTime)
+        setTimerState('buffer')
+      } else {
+        setRemainingSeconds(duration)
+        setTimerState('running')
+      }
     }
-  }, [timerState, duration])
+  }, [timerState, duration, settings.timerBufferTime])
 
   const pause = useCallback(() => {
     if (timerState === 'running') {
@@ -87,6 +64,29 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
     }
   }, [autoStart, timerState, start])
 
+  // Buffer countdown logic
+  useEffect(() => {
+    if (timerState === 'buffer') {
+      intervalRef.current = window.setInterval(() => {
+        setBufferSeconds(prev => {
+          if (prev <= 1) {
+            clearTimerInterval()
+            setRemainingSeconds(duration)
+            setTimerState('running')
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    }
+
+    return () => {
+      if (timerState === 'buffer') {
+        clearTimerInterval()
+      }
+    }
+  }, [timerState, clearTimerInterval, duration])
+
   // Timer countdown logic
   useEffect(() => {
     if (timerState === 'running') {
@@ -95,7 +95,8 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
           if (prev <= 1) {
             clearTimerInterval()
             setTimerState('completed')
-            playCompletionSound()
+            playTimerComplete()
+            vibrate([100, 50, 100, 50, 100]) // Triple vibration pattern
             onComplete?.()
             return 0
           }
@@ -105,9 +106,11 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
     }
 
     return () => {
-      clearTimerInterval()
+      if (timerState === 'running') {
+        clearTimerInterval()
+      }
     }
-  }, [timerState, clearTimerInterval, playCompletionSound, onComplete])
+  }, [timerState, clearTimerInterval, playTimerComplete, vibrate, onComplete])
 
   // Reset when duration changes (new activity)
   useEffect(() => {
@@ -119,10 +122,6 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
   useEffect(() => {
     return () => {
       clearTimerInterval()
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
-      }
     }
   }, [clearTimerInterval])
 
@@ -136,14 +135,25 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
   const isRunning = timerState === 'running'
   const isPaused = timerState === 'paused'
   const isIdle = timerState === 'idle'
+  const isBuffer = timerState === 'buffer'
 
   return (
     <div className={`activity-timer ${isCompleted ? 'completed' : ''}`}>
-      <div className={`timer-countdown ${isCompleted ? 'flash' : ''} ${isPaused ? 'paused' : ''}`}>
-        {formatTime(remainingSeconds)}
-      </div>
+      {isBuffer ? (
+        <div className="timer-countdown buffer">
+          {bufferSeconds}
+        </div>
+      ) : (
+        <div className={`timer-countdown ${isCompleted ? 'flash' : ''} ${isPaused ? 'paused' : ''}`}>
+          {formatTime(remainingSeconds)}
+        </div>
+      )}
 
       <div className="timer-controls">
+        {isBuffer && (
+          <div className="buffer-message">Get ready...</div>
+        )}
+
         {isIdle && (
           <button className="timer-btn start-btn" onClick={start}>
             START

@@ -83,15 +83,28 @@ function Home() {
 
   return (
     <div className="home-screen">
-      {/* Sound Toggle */}
-      <button
-        className="sound-toggle"
-        onClick={toggleMute}
-        aria-label={isMuted ? 'Unmute sounds' : 'Mute sounds'}
-      >
-        {isMuted ? '🔇' : '🔊'}
-        <span className="sound-label">{isMuted ? 'Sound Off' : 'Sound On'}</span>
-      </button>
+      {/* Top Actions Bar */}
+      <div className="home-top-actions">
+        {/* Sound Toggle */}
+        <button
+          className="sound-toggle"
+          onClick={toggleMute}
+          aria-label={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+        >
+          {isMuted ? '🔇' : '🔊'}
+          <span className="sound-label">{isMuted ? 'Sound Off' : 'Sound On'}</span>
+        </button>
+
+        {/* Settings Button */}
+        <button
+          className="settings-btn"
+          onClick={() => navigate('/settings')}
+          aria-label="Open settings"
+        >
+          ⚙️
+          <span className="settings-label">Settings</span>
+        </button>
+      </div>
 
       <div className="home-header">
         <h1>{workout.workout.name}</h1>

@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "startedAt": "2026-01-20T15:51:28.179Z",
+  "completedAt": null,
+  "totalIterations": 1,
+  "tasks": [],
+  "iterations": [
+    {
+      "number": 1,
+      "startedAt": "2026-01-20T15:51:28.201Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    }
+  ]
+}

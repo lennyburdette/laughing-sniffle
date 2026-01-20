@@ -1,0 +1,424 @@
+{
+  "version": "1.0",
+  "project": {
+    "name": "Snowboard Prep PWA",
+    "description": "Mobile-optimized progressive web app for the Snowboard Prep workout routine with timers, rep counters, and vector illustrations for each activity"
+  },
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "Setup PWA project structure",
+      "description": "Initialize a modern PWA project with Vite/React, configure manifest.json, service worker, and create basic folder structure (components, assets, utils, styles)",
+      "criteria": [
+        "Project initialized with package.json",
+        "manifest.json configured for PWA",
+        "Service worker setup for offline capability",
+        "Folder structure created (src/components, src/assets, src/utils, src/styles, public)",
+        "Basic routing setup for activity screens"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": [],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-002",
+      "title": "Create workout data model",
+      "description": "Structure the workout data from the PDF into JSON format with all activities, their types (timed/reps/sets), durations, and descriptions",
+      "criteria": [
+        "workoutData.json created with all 4 sections (Warm-up, Mobility & Stretching, Strength & Stability, Optional Recovery)",
+        "Each activity has: id, name, type (timer/reps/sets), duration/count, side (if applicable), description",
+        "Data includes section metadata (total duration, order)",
+        "Weekly structure data included"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["task-001"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-003",
+      "title": "Design and implement overall timer component",
+      "description": "Create a persistent overall workout timer that appears at the top of every screen, tracks total elapsed time, and can be paused/resumed",
+      "criteria": [
+        "OverallTimer component created",
+        "Timer displays in MM:SS format at top of all screens",
+        "Timer persists across activity screens",
+        "Pause/resume functionality works",
+        "Timer state managed globally (Context or Zustand)"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["task-001"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-004",
+      "title": "Build activity timer component",
+      "description": "Create a timer component for timed activities with large start button, countdown display, and sound effect when timer expires",
+      "criteria": [
+        "ActivityTimer component created",
+        "Large, prominent START button",
+        "Countdown displays in large, easy-to-read font",
+        "Timer counts down accurately",
+        "Sound effect plays when timer reaches 0",
+        "Pause/resume/reset functionality",
+        "Visual indication when timer expires (flash/color change)"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["task-002"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-005",
+      "title": "Build rep counter component",
+      "description": "Create a component for exercises with reps/sets showing large numbers and a NEXT button to advance",
+      "criteria": [
+        "RepCounter component created",
+        "Large, prominent display of current rep/set count",
+        "NEXT button advances the count",
+        "Shows target count (e.g., '5 / 10')",
+        "For 'each side' exercises, tracks left/right separately",
+        "Visual feedback when set is completed",
+        "Auto-advances when target reached"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["task-002"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-006",
+      "title": "Create activity screen template",
+      "description": "Build a reusable screen template that displays activity name, illustration, appropriate control (timer/rep counter), and next button",
+      "criteria": [
+        "ActivityScreen component created",
+        "Displays activity name prominently",
+        "Shows illustration placeholder (image slot)",
+        "Conditionally renders timer OR rep counter based on activity type",
+        "NEXT button to advance to next activity",
+        "BACK button for navigation",
+        "Progress indicator (e.g., 'Activity 5 of 24')",
+        "Mobile-optimized layout (full screen, no scrolling needed)"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["task-004", "task-005"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-007",
+      "title": "Implement workout navigation and state",
+      "description": "Create navigation logic to move between activities, track progress, and handle workout completion",
+      "criteria": [
+        "WorkoutContext or state management setup",
+        "Navigation between activities works",
+        "Progress tracking (which activities completed)",
+        "Can skip or go back to activities",
+        "Workout completion screen",
+        "Can restart workout",
+        "State persists if app is closed (localStorage)"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["task-006"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-008",
+      "title": "Create home/start screen",
+      "description": "Build a landing screen with workout overview, start button, and option to view weekly structure",
+      "criteria": [
+        "HomeScreen component created",
+        "Shows workout title and overview",
+        "Large START WORKOUT button",
+        "Displays estimated duration (25-30 min)",
+        "Shows weekly structure info",
+        "Clean, motivating design",
+        "Quick access to jump to specific section"
+      ],
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["task-001", "task-002"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-009",
+      "title": "Add sound effects",
+      "description": "Integrate sound effects for timer completion and other interactions, with user preference to enable/disable",
+      "criteria": [
+        "Timer completion sound effect added",
+        "Optional: sounds for button clicks",
+        "Optional: sounds for set completion",
+        "Settings to mute/unmute sounds",
+        "Sounds work on mobile browsers",
+        "Audio files are optimized (small file size)"
+      ],
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["task-004"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-010",
+      "title": "Design vector illustrations - Warm-up activities",
+      "description": "Create simple, clean vector illustrations for: Marching/jumping jacks, hip circles, ankle circles, torso rotations",
+      "criteria": [
+        "4 SVG illustrations created",
+        "Consistent style across all illustrations",
+        "Simple, recognizable poses",
+        "Optimized file sizes",
+        "Works on all screen sizes",
+        "Color scheme matches app theme"
+      ],
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["task-001"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-011",
+      "title": "Design vector illustrations - Mobility & Stretching",
+      "description": "Create vector illustrations for: World's Greatest Stretch, Figure-4 stretch, hamstring hip-hinge, calf stretch, ankle dorsiflexion, cat-cow",
+      "criteria": [
+        "6 SVG illustrations created",
+        "Shows proper form for each stretch",
+        "Consistent with warm-up illustration style",
+        "Clear visual cues for movement direction where applicable"
+      ],
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["task-010"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-012",
+      "title": "Design vector illustrations - Strength & Stability",
+      "description": "Create vector illustrations for: single-leg balance, single-leg Romanian deadlift, split squats, glute bridges, dead bug, side plank",
+      "criteria": [
+        "6 SVG illustrations created",
+        "Shows proper form and technique",
+        "Consistent style with other illustrations",
+        "Clear depiction of single-leg exercises"
+      ],
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["task-011"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-013",
+      "title": "Design vector illustrations - Recovery",
+      "description": "Create vector illustrations for: deep squat hold, gentle spinal twist",
+      "criteria": [
+        "2 SVG illustrations created",
+        "Shows relaxed, recovery-focused poses",
+        "Consistent style with other illustrations"
+      ],
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["task-012"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-014",
+      "title": "Integrate all illustrations into app",
+      "description": "Import all vector illustrations and connect them to their respective activities in the app",
+      "criteria": [
+        "All illustrations imported and optimized",
+        "Each activity displays correct illustration",
+        "Images load quickly",
+        "Fallback UI if image fails to load",
+        "Responsive sizing on different screens"
+      ],
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["task-013", "task-006"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-015",
+      "title": "Style and optimize for mobile",
+      "description": "Apply mobile-first responsive design, ensure touch targets are large enough, optimize for one-handed use during workout",
+      "criteria": [
+        "All touch targets are minimum 44px",
+        "Layout works on screens from 320px to 428px width",
+        "No horizontal scrolling",
+        "Font sizes are readable during exercise (min 18px for body)",
+        "High contrast for readability",
+        "Works in both portrait and landscape",
+        "Prevent screen sleep during workout"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["task-007", "task-014"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-016",
+      "title": "Add settings and preferences",
+      "description": "Create a settings screen for sound preferences, timer settings, and other customization options",
+      "criteria": [
+        "Settings screen accessible from home",
+        "Sound on/off toggle",
+        "Option to adjust timer buffer times",
+        "Optional: rest time between activities",
+        "Optional: vibration on completion",
+        "Settings persist across sessions"
+      ],
+      "status": "pending",
+      "priority": "low",
+      "dependencies": ["task-008"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-017",
+      "title": "Implement offline functionality",
+      "description": "Ensure the PWA works completely offline with service worker caching all assets",
+      "criteria": [
+        "Service worker caches all HTML, CSS, JS",
+        "All images and sounds cached",
+        "App works with no internet connection",
+        "Cache update strategy implemented",
+        "Offline indicator if needed"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["task-015"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-018",
+      "title": "PWA install and icons",
+      "description": "Configure PWA installation prompts, create app icons, and ensure Add to Home Screen works smoothly",
+      "criteria": [
+        "App icons created (192x192, 512x512)",
+        "Manifest.json fully configured",
+        "Install prompt works on iOS Safari",
+        "Install prompt works on Android Chrome",
+        "App opens in standalone mode",
+        "Splash screen configured"
+      ],
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["task-017"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-019",
+      "title": "Testing on mobile devices",
+      "description": "Test the app on real iOS and Android devices, fix any device-specific issues",
+      "criteria": [
+        "Tested on iPhone (iOS Safari)",
+        "Tested on Android device (Chrome)",
+        "Timers work accurately",
+        "Sounds play correctly",
+        "No layout issues",
+        "Touch interactions work smoothly",
+        "Performance is smooth (60fps)"
+      ],
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["task-018"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    },
+    {
+      "id": "task-020",
+      "title": "Deploy and configure hosting",
+      "description": "Deploy the PWA to a hosting service (Vercel, Netlify, etc.) with HTTPS and proper PWA headers",
+      "criteria": [
+        "App deployed to production URL",
+        "HTTPS configured",
+        "Service worker works in production",
+        "Proper cache headers set",
+        "PWA installable from production URL",
+        "Analytics setup (optional)"
+      ],
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["task-019"],
+      "metadata": {
+        "startedAt": null,
+        "completedAt": null,
+        "iteration": null
+      }
+    }
+  ]
+}

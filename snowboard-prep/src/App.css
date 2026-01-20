@@ -1,0 +1,149 @@
+/* Base styles - mobile first */
+#root {
+  max-width: 428px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Home screen */
+.home-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 1.5rem;
+}
+
+.home-screen h1 {
+  font-size: 1.75rem;
+  margin: 0;
+}
+
+.start-button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 1.25rem 2.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 200px;
+  min-height: 60px;
+  touch-action: manipulation;
+}
+
+.start-button:active {
+  background: #388e3c;
+  transform: scale(0.98);
+}
+
+/* Activity screen */
+.activity-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 1rem;
+}
+
+.activity-screen h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.activity-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.illustration-placeholder {
+  background: #2a2a3e;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: #888;
+}
+
+.controls-placeholder {
+  background: #2a2a3e;
+  padding: 2rem;
+  border-radius: 12px;
+  color: #888;
+}
+
+.navigation {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.navigation button {
+  flex: 1;
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  min-height: 50px;
+  touch-action: manipulation;
+}
+
+.navigation button:first-child {
+  background: #555;
+  color: white;
+}
+
+.navigation button:last-child {
+  background: #4caf50;
+  color: white;
+}
+
+/* Complete screen */
+.complete-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 1.5rem;
+}
+
+.complete-screen h1 {
+  font-size: 2rem;
+  margin: 0;
+  color: #4caf50;
+}
+
+.complete-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.complete-actions button {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  min-height: 50px;
+  background: #4caf50;
+  color: white;
+  touch-action: manipulation;
+}
+
+.complete-actions button:first-child {
+  background: #555;
+}

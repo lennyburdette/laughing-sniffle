@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure lying on back with hips raised (glute bridge) -->
+  <!-- Head (on ground, left side) -->
+  <circle cx="35" cy="140" r="15" fill="#64b5f6"/>
+
+  <!-- Torso (angled up from shoulders to hips) -->
+  <path d="M50 140 L105 110" stroke="#4caf50" stroke-width="20" stroke-linecap="round"/>
+
+  <!-- Arms flat on ground -->
+  <path d="M55 145 L55 170" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <path d="M75 135 L80 160" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Thighs (bent knees) -->
+  <path d="M105 110 L135 140" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Lower legs (feet on ground) -->
+  <path d="M135 140 L160 170" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Hip lift arrow -->
+  <path d="M100 85 L100 65" stroke="#ff9800" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <path d="M95 72 L100 65 L105 72" stroke="#ff9800" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.8"/>
+
+  <!-- Glute squeeze indicator -->
+  <ellipse cx="105" cy="110" rx="12" ry="8" fill="#ff9800" opacity="0.3"/>
+
+  <!-- Ground line -->
+  <path d="M20 175 L180 175" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

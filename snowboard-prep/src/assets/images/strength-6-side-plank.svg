@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure in side plank position -->
+  <!-- Head -->
+  <circle cx="45" cy="70" r="14" fill="#64b5f6"/>
+
+  <!-- Torso (angled from shoulder to hip) -->
+  <path d="M55 82 L115 115" stroke="#4caf50" stroke-width="20" stroke-linecap="round"/>
+
+  <!-- Supporting arm (elbow on ground) -->
+  <path d="M55 82 L45 115" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <path d="M45 115 L50 145" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Top arm (reaching up) -->
+  <path d="M75 92 L65 50" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Legs (stacked, straight line from hips) -->
+  <path d="M115 115 L175 145" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Bottom foot -->
+  <path d="M175 145 L180 155" stroke="#2196f3" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Straight body line indicator -->
+  <path d="M50 65 L175 135" stroke="#ff9800" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+
+  <!-- Core engagement indicator -->
+  <ellipse cx="95" cy="105" rx="12" ry="8" fill="#ff9800" opacity="0.25"/>
+
+  <!-- Hip lift arrows -->
+  <path d="M95 95 L95 80" stroke="#ff9800" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <path d="M90 85 L95 80 L100 85" stroke="#ff9800" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7"/>
+
+  <!-- Ground line -->
+  <path d="M25 165 L190 165" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

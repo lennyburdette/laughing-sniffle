@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure doing single-leg Romanian deadlift - hinged forward -->
+  <!-- Head (lowered and forward) -->
+  <circle cx="65" cy="70" r="16" fill="#64b5f6"/>
+
+  <!-- Body/Torso (angled, hinging at hip) -->
+  <path d="M75 82 L120 105" stroke="#4caf50" stroke-width="20" stroke-linecap="round"/>
+
+  <!-- Arms reaching down -->
+  <path d="M70 78 L55 115" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+  <path d="M80 85 L65 120" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Standing leg (slight bend) -->
+  <path d="M120 105 L125 170" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Extended leg (back, raised) -->
+  <path d="M120 105 L175 90" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Movement arc indicator -->
+  <path d="M45 55 Q 50 40, 65 35" stroke="#ff9800" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <path d="M65 35 L60 42" stroke="#ff9800" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Balance focus dot -->
+  <circle cx="125" cy="175" r="5" fill="#ff9800" opacity="0.5"/>
+
+  <!-- Ground line -->
+  <path d="M30 175 L170 175" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

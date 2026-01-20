@@ -187,13 +187,13 @@
         "Sounds work on mobile browsers",
         "Audio files are optimized (small file size)"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "dependencies": ["task-004"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:15:00.000Z",
+        "completedAt": "2026-01-20T16:30:00.000Z",
+        "iteration": 9
       }
     },
     {
@@ -208,13 +208,13 @@
         "Works on all screen sizes",
         "Color scheme matches app theme"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "dependencies": ["task-001"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:28:32.396Z",
+        "completedAt": "2026-01-20T16:40:00.000Z",
+        "iteration": 10
       }
     },
     {
@@ -227,13 +227,13 @@
         "Consistent with warm-up illustration style",
         "Clear visual cues for movement direction where applicable"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "dependencies": ["task-010"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:33:00.000Z",
+        "completedAt": "2026-01-20T16:35:00.000Z",
+        "iteration": 11
       }
     },
     {
@@ -246,13 +246,13 @@
         "Consistent style with other illustrations",
         "Clear depiction of single-leg exercises"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "dependencies": ["task-011"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:35:04.188Z",
+        "completedAt": "2026-01-20T16:45:00.000Z",
+        "iteration": 12
       }
     },
     {

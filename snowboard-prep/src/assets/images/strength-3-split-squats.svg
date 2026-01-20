@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure in split squat position - one foot forward, lowered -->
+  <!-- Head -->
+  <circle cx="90" cy="55" r="16" fill="#64b5f6"/>
+
+  <!-- Body/Torso (upright) -->
+  <rect x="80" y="71" width="20" height="40" rx="8" fill="#4caf50"/>
+
+  <!-- Left arm at side -->
+  <path d="M80 78 L60 100" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Right arm at side -->
+  <path d="M100 78 L120 100" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Front leg (bent at knee, foot forward) -->
+  <path d="M85 111 L55 140" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M55 140 L45 170" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Back leg (bent, knee near ground) -->
+  <path d="M95 111 L130 135" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M130 135 L145 165" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Down arrow indicator -->
+  <path d="M90 25 L90 38" stroke="#ff9800" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <path d="M85 33 L90 38 L95 33" stroke="#ff9800" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7"/>
+
+  <!-- Back knee position indicator -->
+  <circle cx="130" cy="160" r="4" fill="#ff9800" opacity="0.5"/>
+
+  <!-- Ground line -->
+  <path d="M30 175 L170 175" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

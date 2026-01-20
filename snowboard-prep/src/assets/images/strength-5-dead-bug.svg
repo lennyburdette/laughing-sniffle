@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure lying on back, arms/legs up - dead bug position -->
+  <!-- Head (on ground) -->
+  <circle cx="35" cy="115" r="14" fill="#64b5f6"/>
+
+  <!-- Torso (flat on back) -->
+  <path d="M50 115 L110 115" stroke="#4caf50" stroke-width="22" stroke-linecap="round"/>
+
+  <!-- Right arm extended up -->
+  <path d="M60 105 L40 55" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Left arm reaching back (opposite of extended leg) -->
+  <path d="M85 105 L60 75" stroke="#4caf50" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Right leg bent at 90 degrees (knee up) -->
+  <path d="M110 115 L130 85" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+  <path d="M130 85 L155 85" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Left leg extended out (opposite of reaching arm) -->
+  <path d="M110 125 L170 145" stroke="#2196f3" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Movement arrows showing opposite arm/leg extension -->
+  <path d="M35 50 L25 40" stroke="#ff9800" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <path d="M170 150 L180 160" stroke="#ff9800" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Core engagement indicator -->
+  <ellipse cx="90" cy="115" rx="15" ry="10" fill="#ff9800" opacity="0.25"/>
+
+  <!-- Ground line -->
+  <path d="M20 145 L180 145" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

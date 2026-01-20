@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1e3a5f" opacity="0.3"/>
+
+  <!-- Figure standing on one leg with balance pose -->
+  <!-- Head -->
+  <circle cx="100" cy="40" r="18" fill="#64b5f6"/>
+
+  <!-- Body/Torso -->
+  <rect x="90" y="58" width="20" height="50" rx="8" fill="#4caf50"/>
+
+  <!-- Left arm out for balance -->
+  <path d="M90 70 L50 65" stroke="#4caf50" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Right arm out for balance -->
+  <path d="M110 70 L150 65" stroke="#4caf50" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Standing leg (straight down) -->
+  <path d="M100 108 L100 170" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Raised leg (bent at knee) -->
+  <path d="M100 108 L130 110" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+  <path d="M130 110 L130 135" stroke="#2196f3" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Balance wobble lines -->
+  <path d="M55 55 L45 50" stroke="#ff9800" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <path d="M145 55 L155 50" stroke="#ff9800" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <path d="M50 75 L40 75" stroke="#ff9800" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+  <path d="M150 75 L160 75" stroke="#ff9800" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Ground line -->
+  <path d="M30 175 L170 175" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+</svg>

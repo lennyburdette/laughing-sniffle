@@ -11,6 +11,12 @@ import mobility3HamstringHipHinge from '../assets/images/mobility-3-hamstring-hi
 import mobility4CalfStretch from '../assets/images/mobility-4-calf-stretch.svg'
 import mobility5AnkleDorsiflexion from '../assets/images/mobility-5-ankle-dorsiflexion.svg'
 import mobility6CatCow from '../assets/images/mobility-6-cat-cow.svg'
+import strength1SingleLegBalance from '../assets/images/strength-1-single-leg-balance.svg'
+import strength2SingleLegRdl from '../assets/images/strength-2-single-leg-rdl.svg'
+import strength3SplitSquats from '../assets/images/strength-3-split-squats.svg'
+import strength4GluteBridges from '../assets/images/strength-4-glute-bridges.svg'
+import strength5DeadBug from '../assets/images/strength-5-dead-bug.svg'
+import strength6SidePlank from '../assets/images/strength-6-side-plank.svg'
 
 // Map of activity IDs to their illustration paths
 const illustrationMap: Record<string, string> = {
@@ -27,6 +33,13 @@ const illustrationMap: Record<string, string> = {
   'mobility-4b': mobility4CalfStretch,
   'mobility-5': mobility5AnkleDorsiflexion,
   'mobility-6': mobility6CatCow,
+  // Strength & Stability activities
+  'strength-1': strength1SingleLegBalance,
+  'strength-2': strength2SingleLegRdl,
+  'strength-3': strength3SplitSquats,
+  'strength-4': strength4GluteBridges,
+  'strength-5': strength5DeadBug,
+  'strength-6': strength6SidePlank,
 }
 
 // Fallback emoji icons for activities without illustrations

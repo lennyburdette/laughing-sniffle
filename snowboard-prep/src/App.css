@@ -9,6 +9,69 @@
   flex-direction: column;
 }
 
+/* Overall Timer - persistent at top */
+.overall-timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.overall-timer-display {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.timer-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timer-value {
+  font-size: 1.75rem;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  transition: opacity 0.3s;
+}
+
+.timer-value.paused {
+  opacity: 0.6;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+}
+
+.timer-toggle-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #fff;
+  touch-action: manipulation;
+  transition: background 0.2s;
+}
+
+.timer-toggle-btn:active {
+  background: rgba(255, 255, 255, 0.25);
+}
+
 /* Home screen */
 .home-screen {
   display: flex;
@@ -146,4 +209,11 @@
 
 .complete-actions button:first-child {
   background: #555;
+}
+
+.final-time {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4caf50;
+  font-variant-numeric: tabular-nums;
 }

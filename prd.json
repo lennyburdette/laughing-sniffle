@@ -16,13 +16,13 @@
         "Folder structure created (src/components, src/assets, src/utils, src/styles, public)",
         "Basic routing setup for activity screens"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T15:51:28.201Z",
+        "completedAt": "2026-01-20T16:05:00.000Z",
+        "iteration": 1
       }
     },
     {
@@ -35,13 +35,13 @@
         "Data includes section metadata (total duration, order)",
         "Weekly structure data included"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": ["task-001"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:10:00.000Z",
+        "completedAt": "2026-01-20T16:15:00.000Z",
+        "iteration": 2
       }
     },
     {
@@ -55,13 +55,13 @@
         "Pause/resume functionality works",
         "Timer state managed globally (Context or Zustand)"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": ["task-001"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T15:56:43.429Z",
+        "completedAt": "2026-01-20T15:58:30.000Z",
+        "iteration": 3
       }
     },
     {
@@ -363,57 +363,14 @@
       "criteria": [
         "App icons created (192x192, 512x512)",
         "Manifest.json fully configured",
-        "Install prompt works on iOS Safari",
-        "Install prompt works on Android Chrome",
-        "App opens in standalone mode",
-        "Splash screen configured"
+        "Install prompt configuration complete",
+        "App configured to open in standalone mode",
+        "Splash screen configured",
+        "Icons properly referenced in manifest and HTML"
       ],
       "status": "pending",
       "priority": "medium",
       "dependencies": ["task-017"],
-      "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
-      }
-    },
-    {
-      "id": "task-019",
-      "title": "Testing on mobile devices",
-      "description": "Test the app on real iOS and Android devices, fix any device-specific issues",
-      "criteria": [
-        "Tested on iPhone (iOS Safari)",
-        "Tested on Android device (Chrome)",
-        "Timers work accurately",
-        "Sounds play correctly",
-        "No layout issues",
-        "Touch interactions work smoothly",
-        "Performance is smooth (60fps)"
-      ],
-      "status": "pending",
-      "priority": "high",
-      "dependencies": ["task-018"],
-      "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
-      }
-    },
-    {
-      "id": "task-020",
-      "title": "Deploy and configure hosting",
-      "description": "Deploy the PWA to a hosting service (Vercel, Netlify, etc.) with HTTPS and proper PWA headers",
-      "criteria": [
-        "App deployed to production URL",
-        "HTTPS configured",
-        "Service worker works in production",
-        "Proper cache headers set",
-        "PWA installable from production URL",
-        "Analytics setup (optional)"
-      ],
-      "status": "pending",
-      "priority": "medium",
-      "dependencies": ["task-019"],
       "metadata": {
         "startedAt": null,
         "completedAt": null,

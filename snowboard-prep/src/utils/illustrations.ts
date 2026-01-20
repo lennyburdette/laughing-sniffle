@@ -17,6 +17,8 @@ import strength3SplitSquats from '../assets/images/strength-3-split-squats.svg'
 import strength4GluteBridges from '../assets/images/strength-4-glute-bridges.svg'
 import strength5DeadBug from '../assets/images/strength-5-dead-bug.svg'
 import strength6SidePlank from '../assets/images/strength-6-side-plank.svg'
+import recovery1DeepSquatHold from '../assets/images/recovery-1-deep-squat-hold.svg'
+import recovery2SpinalTwist from '../assets/images/recovery-2-spinal-twist.svg'
 
 // Map of activity IDs to their illustration paths
 const illustrationMap: Record<string, string> = {
@@ -40,6 +42,9 @@ const illustrationMap: Record<string, string> = {
   'strength-4': strength4GluteBridges,
   'strength-5': strength5DeadBug,
   'strength-6': strength6SidePlank,
+  // Recovery activities
+  'recovery-1': recovery1DeepSquatHold,
+  'recovery-2': recovery2SpinalTwist,
 }
 
 // Fallback emoji icons for activities without illustrations

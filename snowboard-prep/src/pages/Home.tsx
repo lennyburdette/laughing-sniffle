@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTimer } from '../context/TimerContext'
 import { useWorkout } from '../context/WorkoutContext'
+import { useSound } from '../context/SoundContext'
+import { useWakeLock } from '../context/WakeLockContext'
 import { workout } from '../data'
 import type { Section } from '../data/workoutTypes'
 
@@ -19,18 +21,22 @@ function Home() {
     isWorkoutStarted,
     goToActivity
   } = useWorkout()
+  const { isMuted, toggleMute } = useSound()
+  const { request: requestWakeLock } = useWakeLock()
 
   const [showWeeklyView, setShowWeeklyView] = useState(false)
 
-  const handleStartWorkout = () => {
+  const handleStartWorkout = async () => {
     reset()
     start()
     startWorkout()
+    await requestWakeLock()
     navigate('/activity/0')
   }
 
-  const handleResumeWorkout = () => {
+  const handleResumeWorkout = async () => {
     resumeWorkout()
+    await requestWakeLock()
     navigate(`/activity/${currentActivityIndex}`)
   }
 
@@ -39,7 +45,7 @@ function Home() {
     reset()
   }
 
-  const handleJumpToSection = (sectionId: string) => {
+  const handleJumpToSection = async (sectionId: string) => {
     let activityIndex = 0
 
     for (const section of workout.sections) {
@@ -53,6 +59,7 @@ function Home() {
     start()
     startWorkout()
     goToActivity(activityIndex)
+    await requestWakeLock()
     navigate(`/activity/${activityIndex}`)
   }
 
@@ -76,6 +83,16 @@ function Home() {
 
   return (
     <div className="home-screen">
+      {/* Sound Toggle */}
+      <button
+        className="sound-toggle"
+        onClick={toggleMute}
+        aria-label={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+      >
+        {isMuted ? '🔇' : '🔊'}
+        <span className="sound-label">{isMuted ? 'Sound Off' : 'Sound On'}</span>
+      </button>
+
       <div className="home-header">
         <h1>{workout.workout.name}</h1>
         <p className="home-subtitle">{workout.workout.estimatedDuration}</p>

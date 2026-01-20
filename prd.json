@@ -264,13 +264,13 @@
         "Shows relaxed, recovery-focused poses",
         "Consistent style with other illustrations"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "dependencies": ["task-012"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:38:00.000Z",
+        "completedAt": "2026-01-20T16:40:00.000Z",
+        "iteration": 13
       }
     },
     {
@@ -284,13 +284,13 @@
         "Fallback UI if image fails to load",
         "Responsive sizing on different screens"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "dependencies": ["task-013", "task-006"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:40:12.936Z",
+        "completedAt": "2026-01-20T16:55:00.000Z",
+        "iteration": 14
       }
     },
     {
@@ -306,13 +306,13 @@
         "Works in both portrait and landscape",
         "Prevent screen sleep during workout"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": ["task-007", "task-014"],
       "metadata": {
-        "startedAt": null,
-        "completedAt": null,
-        "iteration": null
+        "startedAt": "2026-01-20T16:43:00.000Z",
+        "completedAt": "2026-01-20T16:55:00.000Z",
+        "iteration": 15
       }
     },
     {

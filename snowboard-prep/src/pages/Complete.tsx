@@ -1,16 +1,25 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTimer } from '../context/TimerContext'
 import { useWorkout } from '../context/WorkoutContext'
+import { useWakeLock } from '../context/WakeLockContext'
 
 function Complete() {
   const navigate = useNavigate()
   const { elapsedSeconds, formatTime, reset: resetTimer, start } = useTimer()
   const { completedCount, totalActivities, restartWorkout, resetWorkout } = useWorkout()
+  const { release: releaseWakeLock, request: requestWakeLock } = useWakeLock()
 
-  const handleRestart = () => {
+  // Release wake lock when workout is complete
+  useEffect(() => {
+    releaseWakeLock()
+  }, [releaseWakeLock])
+
+  const handleRestart = async () => {
     resetTimer()
     start()
     restartWorkout()
+    await requestWakeLock()
     navigate('/activity/0')
   }
 

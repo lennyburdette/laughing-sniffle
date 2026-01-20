@@ -1,12 +1,32 @@
 /* Base styles - mobile first */
 #root {
+  width: 100%;
   max-width: 428px;
   margin: 0 auto;
   padding: 1rem;
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
   text-align: center;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Ensure no horizontal scroll at viewport level */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Safe area support for notched phones */
+@supports (padding: env(safe-area-inset-top)) {
+  #root {
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
 }
 
 /* Overall Timer - persistent at top */
@@ -1012,4 +1032,344 @@
 
 .nav-btn.next-btn:active {
   background: #1976d2;
+}
+
+/* ================================
+   RESPONSIVE MOBILE OPTIMIZATIONS
+   ================================ */
+
+/* Very small screens (320px) */
+@media (max-width: 359px) {
+  #root {
+    padding: 0.75rem;
+  }
+
+  .home-screen h1 {
+    font-size: 1.5rem;
+  }
+
+  .timer-countdown {
+    font-size: 3.5rem;
+  }
+
+  .current-rep {
+    font-size: 4rem;
+  }
+
+  .activity-name {
+    font-size: 1.25rem;
+  }
+
+  .timer-btn,
+  .rep-btn {
+    min-width: 120px;
+    padding: 0.875rem 1.5rem;
+    font-size: 1.125rem;
+  }
+
+  .nav-btn {
+    font-size: 1rem;
+    padding: 0.875rem;
+  }
+
+  .section-btn {
+    padding: 0.75rem;
+  }
+
+  .activity-timer,
+  .rep-counter {
+    padding: 1.25rem 1rem;
+  }
+}
+
+/* Standard mobile (360px - 413px) */
+@media (min-width: 360px) and (max-width: 413px) {
+  .timer-countdown {
+    font-size: 4rem;
+  }
+
+  .current-rep {
+    font-size: 4.5rem;
+  }
+}
+
+/* Larger phones (414px+) */
+@media (min-width: 414px) {
+  .timer-countdown {
+    font-size: 5rem;
+  }
+
+  .current-rep {
+    font-size: 5.5rem;
+  }
+
+  .activity-timer,
+  .rep-counter {
+    padding: 2rem 1.75rem;
+  }
+}
+
+/* ================================
+   LANDSCAPE MODE OPTIMIZATIONS
+   ================================ */
+
+@media (orientation: landscape) and (max-height: 500px) {
+  #root {
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .overall-timer {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timer-value {
+    font-size: 1.5rem;
+  }
+
+  .home-screen {
+    gap: 0.75rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    padding-bottom: 0.5rem;
+  }
+
+  .home-header {
+    width: 100%;
+  }
+
+  .home-screen h1 {
+    font-size: 1.25rem;
+  }
+
+  .home-subtitle {
+    font-size: 1rem;
+  }
+
+  .home-description {
+    font-size: 0.875rem;
+  }
+
+  .today-card {
+    padding: 0.75rem;
+  }
+
+  .section-jump {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .section-btn {
+    padding: 0.625rem 0.875rem;
+  }
+
+  .tips-section {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  /* Activity screen landscape layout */
+  .activity-screen-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: flex-start;
+    overflow: auto;
+  }
+
+  .activity-progress {
+    width: 100%;
+    gap: 0.25rem;
+  }
+
+  .progress-bar {
+    height: 4px;
+  }
+
+  .activity-name {
+    font-size: 1.125rem;
+  }
+
+  .activity-description {
+    font-size: 0.8rem;
+    display: none; /* Hide description in landscape to save space */
+  }
+
+  .activity-illustration {
+    flex: 0 0 auto;
+    min-height: 60px;
+    width: 120px;
+  }
+
+  .activity-illustration-img {
+    max-width: 100px;
+    max-height: 80px;
+  }
+
+  .activity-controls {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .activity-timer,
+  .rep-counter {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .timer-countdown {
+    font-size: 3rem;
+  }
+
+  .current-rep {
+    font-size: 3.5rem;
+  }
+
+  .target-rep,
+  .rep-separator {
+    font-size: 2rem;
+  }
+
+  .timer-btn,
+  .rep-btn {
+    min-width: 100px;
+    min-height: 48px;
+    padding: 0.625rem 1rem;
+    font-size: 1rem;
+  }
+
+  .start-btn,
+  .pause-btn,
+  .next-btn {
+    min-width: 140px;
+    font-size: 1.125rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .activity-navigation {
+    width: 100%;
+    padding-top: 0.25rem;
+  }
+
+  .nav-btn {
+    min-height: 48px;
+    padding: 0.625rem;
+    font-size: 1rem;
+  }
+
+  /* Complete screen landscape */
+  .complete-screen {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .complete-screen h1 {
+    width: 100%;
+    font-size: 1.5rem;
+  }
+
+  .complete-message {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .complete-stats {
+    flex: 1;
+  }
+
+  .complete-actions {
+    flex: 1;
+  }
+
+  .complete-actions button {
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+  }
+}
+
+/* Even shorter landscape (for toolbar-heavy browsers) */
+@media (orientation: landscape) and (max-height: 400px) {
+  .overall-timer {
+    display: none;
+  }
+
+  .activity-timer,
+  .rep-counter {
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .timer-countdown {
+    font-size: 2.5rem;
+  }
+
+  .current-rep {
+    font-size: 3rem;
+  }
+}
+
+/* ================================
+   HIGH CONTRAST & ACCESSIBILITY
+   ================================ */
+
+/* Ensure sufficient color contrast */
+.activity-name,
+.timer-countdown,
+.current-rep,
+.completion-message {
+  color: #ffffff;
+}
+
+.activity-description,
+.progress-text,
+.timer-label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Focus indicators for keyboard navigation */
+button:focus-visible,
+.nav-btn:focus-visible,
+.timer-btn:focus-visible,
+.rep-btn:focus-visible {
+  outline: 3px solid #64b5f6;
+  outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .activity-timer,
+  .rep-counter,
+  .today-card,
+  .section-btn,
+  .tips-section,
+  .weekly-structure {
+    border: 2px solid rgba(255, 255, 255, 0.5);
+  }
+
+  button {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .progress-bar,
+  .rep-progress-bar {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
 }

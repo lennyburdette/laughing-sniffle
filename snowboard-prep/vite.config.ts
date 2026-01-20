@@ -19,6 +19,7 @@ export default defineConfig({
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
+        lang: 'en',
         id: '/snowboard-prep',
         categories: ['fitness', 'health', 'sports'],
         icons: [
@@ -117,7 +118,7 @@ export default defineConfig({
       },
       // Development options
       devOptions: {
-        enabled: false // Set to true to test PWA in development
+        enabled: true // Set to true to test PWA in development
       }
     })
   ],

@@ -94,7 +94,7 @@
         "Handle edge cases (1 rep activities, 2 rep activities)",
         "Works correctly with auto-start voice counting"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [
         "task-028",
@@ -128,7 +128,7 @@
         "Respects voiceCountingEnabled setting",
         "Uses VoiceContext speak() function"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [
         "task-028",
@@ -160,7 +160,7 @@
         "No broken image references",
         "Illustration data can remain in activity definitions (just not displayed)"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "dependencies": [],
       "files": [
@@ -195,7 +195,7 @@
         "Responsive design works on mobile",
         "Clear visual hierarchy and touch targets"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [
         "task-030"

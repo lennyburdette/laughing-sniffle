@@ -2,7 +2,6 @@ import { useCallback, useState, useEffect, useRef } from 'react'
 import type { Activity } from '../data/workoutTypes'
 import ActivityTimer from './ActivityTimer'
 import RepCounter from './RepCounter'
-import { getIllustration, getFallbackIcon } from '../utils/illustrations'
 import { useSettings } from '../context/SettingsContext'
 
 interface ActivityScreenProps {
@@ -150,18 +149,6 @@ function ActivityScreen({
   const isFirstActivity = currentIndex === 0
   const isLastActivity = currentIndex === totalActivities - 1
 
-  // Get illustration for current activity
-  const illustration = getIllustration(activity.id)
-  const fallbackIcon = getFallbackIcon(activity.id)
-  const [imageError, setImageError] = useState(false)
-  const [imageLoaded, setImageLoaded] = useState(false)
-
-  // Reset image state when activity changes
-  useEffect(() => {
-    setImageError(false)
-    setImageLoaded(false)
-  }, [activity.id])
-
   // Get duration - use first value of range if available, otherwise duration
   const getDuration = (): number => {
     if (activity.duration) return activity.duration
@@ -257,31 +244,6 @@ function ActivityScreen({
 
       {/* Activity description */}
       <p className="activity-description">{activity.description}</p>
-
-      {/* Activity illustration */}
-      <div className="activity-illustration">
-        {illustration && !imageError ? (
-          <>
-            {!imageLoaded && (
-              <div className="illustration-placeholder-img">
-                <span className="placeholder-icon">{fallbackIcon}</span>
-              </div>
-            )}
-            <img
-              src={illustration}
-              alt={activity.name}
-              className={`activity-illustration-img ${!imageLoaded ? 'loading' : ''}`}
-              onLoad={() => setImageLoaded(true)}
-              onError={() => setImageError(true)}
-              style={{ display: imageLoaded ? 'block' : 'none' }}
-            />
-          </>
-        ) : (
-          <div className="illustration-placeholder-img">
-            <span className="placeholder-icon">{fallbackIcon}</span>
-          </div>
-        )}
-      </div>
 
       {/* Timer or Rep Counter */}
       <div className="activity-controls">

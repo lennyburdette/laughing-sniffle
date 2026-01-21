@@ -2246,27 +2246,116 @@ button:focus-visible,
 }
 
 /* ================================
-   PACE SETTER STYLES
+   PACE CONTROL STYLES (Consolidated UI)
    ================================ */
 
-.pace-setter-btn {
-  padding: 0.5rem 1rem;
+.pace-control-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 0.5rem;
+}
+
+.pace-adjust-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
   background: rgba(156, 39, 176, 0.2);
   border: 2px solid rgba(156, 39, 176, 0.4);
-  border-radius: 10px;
   color: #ba68c8;
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   font-weight: 600;
   cursor: pointer;
   touch-action: manipulation;
   transition: all 0.2s ease;
-  margin-top: 0.5rem;
 }
 
-.pace-setter-btn:active {
-  transform: scale(0.96);
+.pace-adjust-btn.pace-decrement {
+  border-radius: 12px 0 0 12px;
+  border-right: 1px solid rgba(156, 39, 176, 0.3);
+}
+
+.pace-adjust-btn.pace-increment {
+  border-radius: 0 12px 12px 0;
+  border-left: 1px solid rgba(156, 39, 176, 0.3);
+}
+
+.pace-adjust-btn:active:not(:disabled) {
+  transform: scale(0.95);
+  background: rgba(156, 39, 176, 0.4);
+}
+
+.pace-adjust-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pace-value-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  height: 48px;
+  padding: 0 1rem;
+  background: rgba(156, 39, 176, 0.15);
+  border: 2px solid rgba(156, 39, 176, 0.4);
+  border-left: none;
+  border-right: none;
+  color: #ce93d8;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.pace-value-btn:active {
+  transform: scale(0.98);
   background: rgba(156, 39, 176, 0.3);
 }
+
+/* Responsive pace controls */
+@media (max-width: 359px) {
+  .pace-adjust-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.25rem;
+  }
+
+  .pace-value-btn {
+    min-width: 75px;
+    height: 42px;
+    font-size: 1rem;
+    padding: 0 0.75rem;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .pace-control-container {
+    margin-top: 0.25rem;
+  }
+
+  .pace-adjust-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+  }
+
+  .pace-value-btn {
+    min-width: 70px;
+    height: 40px;
+    font-size: 0.9375rem;
+    padding: 0 0.625rem;
+  }
+}
+
+/* ================================
+   PACE SETTER MODAL STYLES
+   ================================ */
 
 .pace-setter-overlay {
   position: fixed;

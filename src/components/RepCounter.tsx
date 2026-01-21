@@ -54,6 +54,25 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
   // Check if voice counting should be available
   const voiceCountingAvailable = synthesisAvailable && settings.voiceCountingEnabled
 
+  // Pace control constants
+  const MIN_PACE = 1.0
+  const MAX_PACE = 5.0
+  const PACE_INCREMENT = 0.2
+
+  // Get current pace for this activity
+  const currentPace = getActivityPace(activityId)
+
+  // Handle pace increment/decrement
+  const incrementPace = useCallback(() => {
+    const newPace = Math.min(MAX_PACE, Math.round((currentPace + PACE_INCREMENT) * 10) / 10)
+    setActivityPace(activityId, newPace)
+  }, [currentPace, activityId, setActivityPace])
+
+  const decrementPace = useCallback(() => {
+    const newPace = Math.max(MIN_PACE, Math.round((currentPace - PACE_INCREMENT) * 10) / 10)
+    setActivityPace(activityId, newPace)
+  }, [currentPace, activityId, setActivityPace])
+
   // Stop voice counting
   const stopVoiceCounting = useCallback(() => {
     if (voiceIntervalRef.current !== null) {
@@ -311,21 +330,42 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
               <span className="voice-indicator-dot"></span>
             )}
           </button>
+
+          {/* Consolidated Pace Control UI */}
+          <div className="pace-control-container">
+            <button
+              className="pace-adjust-btn pace-decrement"
+              onClick={decrementPace}
+              disabled={currentPace <= MIN_PACE}
+              aria-label="Decrease pace by 0.2 seconds"
+            >
+              −
+            </button>
+            <button
+              className="pace-value-btn"
+              onClick={() => setShowPaceSetter(true)}
+              title="Tap to set custom pace"
+            >
+              {currentPace > 0 ? `${currentPace.toFixed(1)}s` : 'set pace'}
+            </button>
+            <button
+              className="pace-adjust-btn pace-increment"
+              onClick={incrementPace}
+              disabled={currentPace >= MAX_PACE}
+              aria-label="Increase pace by 0.2 seconds"
+            >
+              +
+            </button>
+          </div>
+
           {voiceCountingActive && (
             <div className="voice-active-indicator">
               <span className="voice-pulse"></span>
               <span className="voice-status-text">
-                Counting every {getActivityPace(activityId).toFixed(1)}s
+                Counting every {currentPace.toFixed(1)}s
               </span>
             </div>
           )}
-          <button
-            className="pace-setter-btn"
-            onClick={() => setShowPaceSetter(true)}
-            title="Set custom pace for this activity"
-          >
-            ⏱️ Set Pace
-          </button>
         </div>
       )}
 
@@ -357,7 +397,7 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       {/* Pace Setter Modal */}
       {showPaceSetter && (
         <PaceSetter
-          currentPace={getActivityPace(activityId)}
+          currentPace={currentPace}
           onPaceSet={(pace) => setActivityPace(activityId, pace)}
           onClose={() => setShowPaceSetter(false)}
         />

@@ -367,69 +367,226 @@
       "commitHash": null,
       "iteration": 0,
       "logFile": "/Users/lenny/Development/hacking/routines/logs/task-018.log"
+    },
+    {
+      "taskId": "task-019",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T02:23:56.534Z",
+      "completedAt": "2026-01-21T02:23:57.056Z",
+      "duration": 0,
+      "summary": "** Fixed iOS sound effects and silent mode bypass by replacing Web Audio API oscillators with HTML5 audio elements. Created WAV audio files for all sounds (timer-complete, side-transition, set-complete, click), updated SoundContext.tsx to use HTML5 `<audio>` elements with proper iOS attributes (playsinline, webkit-playsinline), added the new `playSideTransition()` function for multi-sided timer transitions, and implemented a Web Audio API fallback in case audio files fail to load. Also added TypeScript declarations for audio file imports.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully with WAV files bundled",
+        "Verify audio files exist: `ls -la src/assets/sounds/*.wav` should show 4 WAV files (timer-complete.wav, side-transition.wav, set-complete.wav, click.wav)",
+        "Check SoundContext uses HTML5 audio: `grep \"new Audio\" src/context/SoundContext.tsx` confirms Audio element usage",
+        "Verify iOS attributes: `grep \"playsinline\" src/context/SoundContext.tsx` shows playsinline/webkit-playsinline attributes",
+        "Verify playSideTransition function: `grep \"playSideTransition\" src/context/SoundContext.tsx` shows 3+ occurrences",
+        "Verify Web Audio API fallback: `grep \"useFallbackRef\" src/context/SoundContext.tsx` shows fallback mechanism",
+        "Verify TypeScript declarations: `cat src/vite-env.d.ts` shows *.wav module declarations",
+        "Check build output includes audio files: `ls dist/assets/*.wav` should show bundled audio files"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-019.log"
+    },
+    {
+      "taskId": "task-020",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T02:26:36.332Z",
+      "completedAt": "2026-01-21T02:26:36.910Z",
+      "duration": 0,
+      "summary": "** Added a visual auto-advance countdown indicator overlay for the Snowboard Prep PWA. The implementation includes:\n- A 3-second countdown overlay that appears after activity completion (when not the last activity)\n- Circular SVG progress ring that fills as the countdown progresses\n- Large countdown number displayed in the center\n- \"Auto-advancing to next activity...\" message\n- GO NOW button for immediate advancement\n- Logic to skip the overlay on the last activity (user must click FINISH WORKOUT)\n- Rest period screen takes precedence over auto-advance countdown when configured\n- Smooth fade-in animation for the overlay\n- Updated navigation button labels to \"SKIP ACTIVITY\" and \"FINISH WORKOUT\" for clarity\n- Responsive CSS for small screens and landscape orientation",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles",
+        "Verify auto-advance overlay appears: `grep \"auto-advance-overlay\" src/components/ActivityScreen.tsx` shows the overlay JSX",
+        "Verify circular progress ring: `grep \"auto-advance-ring\" src/App.css` shows SVG circle styling",
+        "Verify countdown display: `grep \"auto-advance-countdown\" src/components/ActivityScreen.tsx` shows the countdown number element",
+        "Verify GO NOW button: `grep \"auto-advance-go-btn\" src/components/ActivityScreen.tsx` shows the immediate advancement button",
+        "Verify last activity handling: `grep \"isLast\" src/components/ActivityScreen.tsx` shows the check for last activity",
+        "Verify rest period precedence: `grep \"restTimeBetweenActivities > 0\" src/components/ActivityScreen.tsx` shows rest takes priority",
+        "Verify fade-in animation: `grep \"fadeIn\" src/App.css` shows the smooth animation keyframes",
+        "Verify updated button labels: `grep -E \"SKIP ACTIVITY|FINISH WORKOUT\" src/components/ActivityScreen.tsx` shows both new labels"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-020.log"
+    },
+    {
+      "taskId": "task-021",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T02:30:58.511Z",
+      "completedAt": "2026-01-21T02:30:59.002Z",
+      "duration": 0,
+      "summary": "** Implemented auto-switching multi-sided timer functionality for the Snowboard Prep PWA. Enhanced the ActivityTimer component to automatically split duration between sides (e.g., 60s = 30s left + 30s right), display a side indicator showing current side and progress, auto-transition between sides with a 1.5 second pause, play transition sound (2 beeps) and double vibration, and show a transition message. Added a progress bar for overall completion tracking across all sides. The implementation handles odd duration splits correctly (e.g., 35s/2 = 17s+18s), supports 3+ sided activities, ensures single-sided activities work unchanged, and maintains proper pause/resume/reset behavior. Buffer time only applies before the first side.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles",
+        "Verify ActivityTimer accepts side props: `grep -E \"side\\?: SideType|sideLabels\\?: string\\[\\]\" src/components/ActivityTimer.tsx` shows both props",
+        "Verify duration split logic: `grep -A 5 \"calculateSideDurations\" src/components/ActivityTimer.tsx` shows the calculation function",
+        "Verify side indicator: `grep \"side-indicator\" src/components/ActivityTimer.tsx` shows the JSX for current side display",
+        "Verify 1.5s transition: `grep \"1500\" src/components/ActivityTimer.tsx` shows the setTimeout delay",
+        "Verify transition sound: `grep \"playSideTransition\" src/components/ActivityTimer.tsx` shows sound being called",
+        "Verify double vibration: `grep \"100, 50, 100\\]\" src/components/ActivityTimer.tsx` shows the double vibration pattern",
+        "Verify transition message: `grep \"Switching to\" src/components/ActivityTimer.tsx` shows the message template",
+        "Verify progress bar: `grep \"timer-progress-bar\" src/components/ActivityTimer.tsx` shows progress bar JSX",
+        "Verify ActivityScreen passes side props: `grep \"side={activity.side}\" src/components/ActivityScreen.tsx` shows props being passed"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-021.log"
+    },
+    {
+      "taskId": "task-022",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T02:33:07.555Z",
+      "completedAt": "2026-01-21T02:33:08.147Z",
+      "duration": 0,
+      "summary": "** Created VoiceContext.tsx to manage Web Speech API for voice synthesis (counting out loud) and voice recognition (commands). The context provides speech synthesis functions with configurable rate, pitch, and volume options, speech recognition with automatic restart on recoverable errors, iOS Safari detection for graceful degradation (voice counting works, commands don't), webkit prefix handling for Safari compatibility, user-friendly error messages for permission denied and network errors, and command normalization.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles",
+        "Verify VoiceContext.tsx exists: `ls -la src/context/VoiceContext.tsx` shows the file",
+        "Check SpeechSynthesis detection: `grep \"speechSynthesis\" src/context/VoiceContext.tsx` shows availability detection",
+        "Check SpeechRecognition detection: `grep \"SpeechRecognition\" src/context/VoiceContext.tsx` shows Chrome/Edge detection",
+        "Verify speak() function: `grep \"speak = useCallback\" src/context/VoiceContext.tsx` shows configurable options",
+        "Verify cancelSpeech(): `grep \"cancelSpeech = useCallback\" src/context/VoiceContext.tsx` confirms function exists",
+        "Verify startListening(): `grep \"startListening = useCallback\" src/context/VoiceContext.tsx` confirms function exists",
+        "Verify stopListening(): `grep \"stopListening = useCallback\" src/context/VoiceContext.tsx` confirms function exists",
+        "Verify state tracking: `grep -E \"isSpeaking|isListening\" src/context/VoiceContext.tsx | wc -l` returns at least 8 occurrences",
+        "Verify webkit prefix handling: `grep \"webkit\" src/context/VoiceContext.tsx` shows Safari compatibility",
+        "Verify iOS limitation: `grep \"iOS\" src/context/VoiceContext.tsx` shows iOS Safari detection and documentation",
+        "Verify error handling: `grep \"getRecognitionErrorMessage\" src/context/VoiceContext.tsx` shows user-friendly messages",
+        "Verify auto-restart: `grep \"shouldRestartRef\" src/context/VoiceContext.tsx` shows automatic restart logic",
+        "Verify command normalization: `grep \"toLowerCase.*trim\" src/context/VoiceContext.tsx` shows normalization",
+        "Verify exported interface: `grep \"export interface VoiceContextType\" src/context/VoiceContext.tsx` confirms export"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-022.log"
+    },
+    {
+      "taskId": "task-023",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T02:34:19.145Z",
+      "completedAt": "2026-01-21T02:34:19.572Z",
+      "duration": 0,
+      "summary": "** Extended the Settings interface in SettingsContext.tsx with 7 new voice-related configuration options: voiceCountingEnabled, voiceCommandsEnabled, voiceCountingPace, voiceVolume, voiceRate, voicePitch, and autoStartVoiceCounting. All settings have appropriate default values and persist to localStorage through the existing mechanism.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles",
+        "Run `grep -E \"voiceCountingEnabled|voiceCommandsEnabled|voiceCountingPace|voiceVolume|voiceRate|voicePitch|autoStartVoiceCounting\" src/context/SettingsContext.tsx` - should show all 7 settings defined in interface and defaults",
+        "Run `grep \"localStorage\" src/context/SettingsContext.tsx | wc -l` - returns at least 2 confirming persistence",
+        "Run `grep \"export type { Settings }\" src/context/SettingsContext.tsx` - confirms Settings type is exported",
+        "Run `grep \"DEFAULT_SETTINGS\" src/context/SettingsContext.tsx` - shows defaults are exported for reference"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-023.log"
+    },
+    {
+      "taskId": "task-024",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T02:37:00.149Z",
+      "completedAt": "2026-01-21T02:37:00.544Z",
+      "duration": 0,
+      "summary": "** Implemented voice counting functionality in the RepCounter component. The implementation adds automatic voice counting that speaks rep numbers out loud at the configured pace, with a Start/Stop Voice Counting button, visual active indicator, auto-start support, pause/resume handling, multi-sided exercise support, and graceful degradation for unsupported browsers.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles",
+        "Verify VoiceContext import: `grep \"useVoice\" src/components/RepCounter.tsx` shows import and usage",
+        "Verify voiceCountingActive state: `grep \"voiceCountingActive\" src/components/RepCounter.tsx | wc -l` returns at least 8 occurrences",
+        "Verify voice counting interval: `grep \"voiceIntervalRef\" src/components/RepCounter.tsx` shows interval management",
+        "Verify speak function call: `grep \"speak(String(rep)\" src/components/RepCounter.tsx` confirms voice output",
+        "Verify Start/Stop button: `grep \"voice-control-btn\" src/components/RepCounter.tsx` confirms UI button",
+        "Verify visual indicator: `grep \"voice-active-indicator\" src/components/RepCounter.tsx` confirms active state display",
+        "Verify autoStartVoiceCounting handling: `grep \"autoStartVoiceCounting\" src/components/RepCounter.tsx` shows setting support",
+        "Verify pause handling: `grep \"isPaused\" src/components/RepCounter.tsx` shows pause coordination",
+        "Verify graceful degradation: `grep \"voice-unavailable-message\" src/components/RepCounter.tsx` confirms fallback message",
+        "Verify CSS styles: `grep \"voice-control-btn\" src/App.css` shows styling for voice controls"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-024.log"
+    },
+    {
+      "taskId": "task-025",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T02:40:27.059Z",
+      "completedAt": "2026-01-21T02:40:27.485Z",
+      "duration": 0,
+      "summary": "** Implemented voice command recognition in RepCounter component allowing hands-free rep advancement via spoken commands. The feature uses the Web Speech API (Chrome/Edge only) with graceful degradation on unsupported browsers. Added command handlers for 'next'/'rep'/'count'/'go' (advance rep), 'pause'/'stop' (pause voice counting), and 'resume'/'start'/'continue' (resume voice counting). Included visual listening indicator with pulsing microphone icon, command debouncing (500ms), user-friendly error messages, and automatic recognition restart on recoverable errors.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles",
+        "Verify voice recognition integration: `grep \"startListening\\|stopListening\\|isListening\" src/components/RepCounter.tsx` shows multiple occurrences",
+        "Verify command recognition: `grep -E \"'next'|'rep'|'count'|'go'|'pause'|'stop'|'resume'|'start'|'continue'\" src/components/RepCounter.tsx` shows all commands handled",
+        "Verify visual listening indicator: `grep -E \"mic-icon|listening-pulse|voice-command-btn\" src/components/RepCounter.tsx` shows UI elements",
+        "Verify command debouncing: `grep \"COMMAND_DEBOUNCE_MS\\|lastCommandTimeRef\" src/components/RepCounter.tsx` confirms debouncing logic",
+        "Verify graceful degradation: `grep \"recognitionAvailable\" src/components/RepCounter.tsx | wc -l` returns 3+ occurrences",
+        "Verify CSS styles: `grep -c \"voice-command-btn\\|voice-listening-indicator\\|listeningPulse\" src/App.css` returns 9+ occurrences",
+        "Check Chrome/Edge unavailability message: `grep \"Voice commands only available on Chrome/Edge\" src/components/RepCounter.tsx` confirms fallback message"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-025.log"
     }
   ],
   "iterations": [
     {
       "number": 1,
       "startedAt": "2026-01-20T15:51:28.201Z",
-      "completedAt": "2026-01-20T15:54:23.820Z",
+      "completedAt": "2026-01-21T02:23:57.057Z",
       "tasksCompleted": [
-        "task-001"
+        "task-019"
       ],
       "success": true
     },
     {
       "number": 2,
       "startedAt": "2026-01-20T15:54:25.822Z",
-      "completedAt": "2026-01-20T15:56:41.426Z",
+      "completedAt": "2026-01-21T02:26:36.911Z",
       "tasksCompleted": [
-        "task-002"
+        "task-020"
       ],
       "success": true
     },
     {
       "number": 3,
       "startedAt": "2026-01-20T15:56:43.429Z",
-      "completedAt": "2026-01-20T15:59:32.000Z",
+      "completedAt": "2026-01-21T02:30:59.003Z",
       "tasksCompleted": [
-        "task-003"
+        "task-021"
       ],
       "success": true
     },
     {
       "number": 4,
       "startedAt": "2026-01-20T15:59:34.003Z",
-      "completedAt": "2026-01-20T16:01:26.468Z",
+      "completedAt": "2026-01-21T02:33:08.148Z",
       "tasksCompleted": [
-        "task-004"
+        "task-022"
       ],
       "success": true
     },
     {
       "number": 5,
       "startedAt": "2026-01-20T16:01:28.471Z",
-      "completedAt": "2026-01-20T16:03:35.542Z",
+      "completedAt": "2026-01-21T02:34:19.573Z",
       "tasksCompleted": [
-        "task-005"
+        "task-023"
       ],
       "success": true
     },
     {
       "number": 6,
       "startedAt": "2026-01-20T16:03:37.548Z",
-      "completedAt": "2026-01-20T16:05:42.309Z",
+      "completedAt": "2026-01-21T02:37:00.545Z",
       "tasksCompleted": [
-        "task-006"
+        "task-024"
       ],
       "success": true
     },
     {
       "number": 7,
       "startedAt": "2026-01-20T16:05:44.311Z",
-      "completedAt": "2026-01-20T16:09:17.512Z",
+      "completedAt": "2026-01-21T02:40:27.486Z",
       "tasksCompleted": [
-        "task-007"
+        "task-025"
       ],
       "success": true
     },
@@ -535,6 +692,62 @@
     {
       "number": 19,
       "startedAt": "2026-01-20T17:00:38.555Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 1,
+      "startedAt": "2026-01-21T02:19:45.076Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 2,
+      "startedAt": "2026-01-21T02:23:59.061Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 3,
+      "startedAt": "2026-01-21T02:26:38.913Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 4,
+      "startedAt": "2026-01-21T02:31:01.005Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 5,
+      "startedAt": "2026-01-21T02:33:10.150Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 6,
+      "startedAt": "2026-01-21T02:34:21.575Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 7,
+      "startedAt": "2026-01-21T02:37:02.547Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 8,
+      "startedAt": "2026-01-21T02:40:29.488Z",
       "completedAt": null,
       "tasksCompleted": [],
       "success": false

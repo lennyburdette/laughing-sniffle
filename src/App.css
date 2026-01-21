@@ -2409,3 +2409,153 @@ button:focus-visible,
     font-size: 0.75rem;
   }
 }
+
+/* ================================
+   VOICE SETTINGS STYLES
+   ================================ */
+
+/* Compatibility warning banner */
+.compatibility-warning {
+  padding: 1rem;
+  background: rgba(255, 152, 0, 0.15);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  border-radius: 8px;
+  color: #ffb74d;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Availability badges */
+.availability-badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.availability-badge.available {
+  background: rgba(76, 175, 80, 0.2);
+  color: #81c784;
+}
+
+.availability-badge.unavailable {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Pace options buttons */
+.pace-options {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.pace-btn {
+  flex: 1;
+  padding: 0.625rem 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s, border-color 0.2s;
+  min-height: 44px;
+}
+
+.pace-btn:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.pace-btn.selected {
+  background: rgba(100, 181, 246, 0.3);
+  border-color: #64b5f6;
+  color: #90caf9;
+}
+
+/* Voice slider */
+.voice-slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.voice-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #64b5f6;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s;
+}
+
+.voice-slider::-webkit-slider-thumb:active {
+  transform: scale(1.1);
+}
+
+.voice-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #64b5f6;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.voice-slider::-moz-range-track {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Test voice button */
+.test-voice-btn {
+  width: 100%;
+  padding: 0.875rem;
+  background: rgba(100, 181, 246, 0.2);
+  border: 1px solid rgba(100, 181, 246, 0.4);
+  border-radius: 8px;
+  color: #64b5f6;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s, transform 0.1s;
+  min-height: 48px;
+  margin-top: 0.5rem;
+}
+
+.test-voice-btn:active:not(:disabled) {
+  background: rgba(100, 181, 246, 0.3);
+  transform: scale(0.98);
+}
+
+.test-voice-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Disabled toggle button */
+.toggle-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.toggle-btn:disabled .toggle-knob {
+  background: rgba(255, 255, 255, 0.5);
+}

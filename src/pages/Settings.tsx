@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import { useSettings } from '../context/SettingsContext'
 import { useSound } from '../context/SoundContext'
+import { useVoice } from '../context/VoiceContext'
 
 function Settings() {
   const navigate = useNavigate()
   const { settings, updateSetting, resetSettings } = useSettings()
   const { playClick } = useSound()
+  const { synthesisAvailable, recognitionAvailable, speak, isSpeaking } = useVoice()
 
   const handleToggle = (key: 'soundEnabled' | 'vibrationEnabled') => {
     playClick()
@@ -31,6 +33,47 @@ function Settings() {
     playClick()
     navigate('/')
   }
+
+  const handleVoiceToggle = (key: 'voiceCountingEnabled' | 'voiceCommandsEnabled' | 'autoStartVoiceCounting') => {
+    playClick()
+    updateSetting(key, !settings[key])
+  }
+
+  const handleVoicePaceChange = (value: number) => {
+    playClick()
+    updateSetting('voiceCountingPace', value)
+  }
+
+  const handleVoiceVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateSetting('voiceVolume', parseFloat(e.target.value))
+  }
+
+  const handleVoiceRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateSetting('voiceRate', parseFloat(e.target.value))
+  }
+
+  const handleVoicePitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateSetting('voicePitch', parseFloat(e.target.value))
+  }
+
+  const handleTestVoice = () => {
+    playClick()
+    if (synthesisAvailable && !isSpeaking) {
+      speak('1, 2, 3, 4, 5', {
+        rate: settings.voiceRate,
+        pitch: settings.voicePitch,
+        volume: settings.voiceVolume
+      })
+    }
+  }
+
+  const paceOptions = [
+    { value: 1, label: '1s' },
+    { value: 2, label: '2s' },
+    { value: 3, label: '3s' },
+    { value: 4, label: '4s' },
+    { value: 5, label: '5s' },
+  ]
 
   const restTimeOptions = [
     { value: 0, label: 'None' },
@@ -128,6 +171,156 @@ function Settings() {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="settings-section">
+        <h2 className="settings-section-title">Voice Assistance</h2>
+
+        {!synthesisAvailable && (
+          <div className="compatibility-warning">
+            Voice features are not supported in this browser.
+          </div>
+        )}
+
+        {synthesisAvailable && (
+          <>
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">
+                  Voice Counting
+                  {synthesisAvailable && <span className="availability-badge available">Available</span>}
+                </span>
+                <span className="setting-description">Count reps out loud during exercises</span>
+              </div>
+              <button
+                className={`toggle-btn ${settings.voiceCountingEnabled ? 'active' : ''}`}
+                onClick={() => handleVoiceToggle('voiceCountingEnabled')}
+                aria-pressed={settings.voiceCountingEnabled}
+                aria-label={settings.voiceCountingEnabled ? 'Disable voice counting' : 'Enable voice counting'}
+              >
+                <span className="toggle-knob" />
+              </button>
+            </div>
+
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">
+                  Voice Commands
+                  {recognitionAvailable ? (
+                    <span className="availability-badge available">Available</span>
+                  ) : (
+                    <span className="availability-badge unavailable">Not available</span>
+                  )}
+                </span>
+                <span className="setting-description">
+                  Control the app with voice commands
+                  {!recognitionAvailable && ' (Chrome/Edge only, not iOS)'}
+                </span>
+              </div>
+              <button
+                className={`toggle-btn ${settings.voiceCommandsEnabled ? 'active' : ''}`}
+                onClick={() => handleVoiceToggle('voiceCommandsEnabled')}
+                disabled={!recognitionAvailable}
+                aria-pressed={settings.voiceCommandsEnabled}
+                aria-label={settings.voiceCommandsEnabled ? 'Disable voice commands' : 'Enable voice commands'}
+              >
+                <span className="toggle-knob" />
+              </button>
+            </div>
+
+            <div className="setting-item stacked">
+              <div className="setting-info">
+                <span className="setting-label">Counting Pace</span>
+                <span className="setting-description">Time between each counted rep</span>
+              </div>
+              <div className="pace-options">
+                {paceOptions.map(option => (
+                  <button
+                    key={option.value}
+                    className={`pace-btn ${settings.voiceCountingPace === option.value ? 'selected' : ''}`}
+                    onClick={() => handleVoicePaceChange(option.value)}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">Auto-start Voice Counting</span>
+                <span className="setting-description">Begin counting when activity starts</span>
+              </div>
+              <button
+                className={`toggle-btn ${settings.autoStartVoiceCounting ? 'active' : ''}`}
+                onClick={() => handleVoiceToggle('autoStartVoiceCounting')}
+                aria-pressed={settings.autoStartVoiceCounting}
+                aria-label={settings.autoStartVoiceCounting ? 'Disable auto-start' : 'Enable auto-start'}
+              >
+                <span className="toggle-knob" />
+              </button>
+            </div>
+
+            <div className="setting-item stacked">
+              <div className="setting-info">
+                <span className="setting-label">Voice Volume</span>
+                <span className="setting-description">{Math.round(settings.voiceVolume * 100)}%</span>
+              </div>
+              <input
+                type="range"
+                className="voice-slider"
+                min="0"
+                max="1"
+                step="0.1"
+                value={settings.voiceVolume}
+                onChange={handleVoiceVolumeChange}
+                aria-label="Voice volume"
+              />
+            </div>
+
+            <div className="setting-item stacked">
+              <div className="setting-info">
+                <span className="setting-label">Voice Speed</span>
+                <span className="setting-description">{settings.voiceRate.toFixed(1)}x</span>
+              </div>
+              <input
+                type="range"
+                className="voice-slider"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={settings.voiceRate}
+                onChange={handleVoiceRateChange}
+                aria-label="Voice speed"
+              />
+            </div>
+
+            <div className="setting-item stacked">
+              <div className="setting-info">
+                <span className="setting-label">Voice Pitch</span>
+                <span className="setting-description">{settings.voicePitch.toFixed(1)}x</span>
+              </div>
+              <input
+                type="range"
+                className="voice-slider"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={settings.voicePitch}
+                onChange={handleVoicePitchChange}
+                aria-label="Voice pitch"
+              />
+            </div>
+
+            <button
+              className="test-voice-btn"
+              onClick={handleTestVoice}
+              disabled={!synthesisAvailable || isSpeaking}
+            >
+              {isSpeaking ? 'Speaking...' : 'Test Voice'}
+            </button>
+          </>
+        )}
       </div>
 
       <div className="settings-section">

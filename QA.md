@@ -1,0 +1,4 @@
+- sound effects aren't working when run as an app on an iphone (i0S 26). confirmed that the volume was up
+- many timed activities have a left and right side, but there's only one timer
+- we need to rethink the set counter. tapping the phone isn't feasible during many activities. we want to simulate having a personal training counting for us. what options do we have here?
+- it's not always obvious when we need to tap "next" or if the app will auto-advance to the next activity

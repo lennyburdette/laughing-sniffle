@@ -289,6 +289,8 @@ function ActivityScreen({
           <ActivityTimer
             duration={getDuration()}
             onComplete={handleActivityComplete}
+            side={activity.side}
+            sideLabels={activity.sideLabels}
           />
         ) : (
           <RepCounter

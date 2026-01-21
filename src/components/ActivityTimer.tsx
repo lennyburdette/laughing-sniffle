@@ -1,21 +1,48 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useSound } from '../context/SoundContext'
 import { useSettings } from '../context/SettingsContext'
+import type { SideType } from '../data/workoutTypes'
 
 interface ActivityTimerProps {
   duration: number // in seconds
   onComplete?: () => void
   autoStart?: boolean
+  side?: SideType
+  sideLabels?: string[]
 }
 
-type TimerState = 'idle' | 'running' | 'paused' | 'completed' | 'buffer'
+type TimerState = 'idle' | 'running' | 'paused' | 'completed' | 'buffer' | 'transitioning'
 
-function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTimerProps) {
-  const [remainingSeconds, setRemainingSeconds] = useState(duration)
+// Calculate duration splits for multi-sided timers
+// E.g., 35s with 2 sides = [17, 18], 60s with 2 sides = [30, 30]
+function calculateSideDurations(totalDuration: number, numSides: number): number[] {
+  const baseDuration = Math.floor(totalDuration / numSides)
+  const remainder = totalDuration % numSides
+
+  return Array.from({ length: numSides }, (_, i) =>
+    i < remainder ? baseDuration + 1 : baseDuration
+  )
+}
+
+function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabels }: ActivityTimerProps) {
+  // Determine if this is a multi-sided timer
+  const isMultiSided = side === 'each' && sideLabels && sideLabels.length > 1
+  const numSides = isMultiSided ? sideLabels!.length : 1
+
+  // Memoize side durations to prevent recalculation on every render
+  const sideDurations = useMemo(
+    () => calculateSideDurations(duration, numSides),
+    [duration, numSides]
+  )
+
+  const [currentSideIndex, setCurrentSideIndex] = useState(0)
+  const [remainingSeconds, setRemainingSeconds] = useState(sideDurations[0])
   const [timerState, setTimerState] = useState<TimerState>('idle')
   const [bufferSeconds, setBufferSeconds] = useState(0)
+  const [transitionMessage, setTransitionMessage] = useState('')
   const intervalRef = useRef<number | null>(null)
-  const { playTimerComplete, vibrate } = useSound()
+  const transitionTimeoutRef = useRef<number | null>(null)
+  const { playTimerComplete, playSideTransition, vibrate } = useSound()
   const { settings } = useSettings()
 
   const clearTimerInterval = useCallback(() => {
@@ -25,18 +52,27 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
     }
   }, [])
 
+  const clearTransitionTimeout = useCallback(() => {
+    if (transitionTimeoutRef.current !== null) {
+      clearTimeout(transitionTimeoutRef.current)
+      transitionTimeoutRef.current = null
+    }
+  }, [])
+
   const start = useCallback(() => {
     if (timerState === 'idle' || timerState === 'completed') {
-      // If buffer time is set, start with buffer countdown
+      // Reset to first side for multi-sided timers
+      setCurrentSideIndex(0)
+      // If buffer time is set, start with buffer countdown (only before first side)
       if (settings.timerBufferTime > 0) {
         setBufferSeconds(settings.timerBufferTime)
         setTimerState('buffer')
       } else {
-        setRemainingSeconds(duration)
+        setRemainingSeconds(sideDurations[0])
         setTimerState('running')
       }
     }
-  }, [timerState, duration, settings.timerBufferTime])
+  }, [timerState, sideDurations, settings.timerBufferTime])
 
   const pause = useCallback(() => {
     if (timerState === 'running') {
@@ -53,9 +89,12 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
 
   const reset = useCallback(() => {
     clearTimerInterval()
-    setRemainingSeconds(duration)
+    clearTransitionTimeout()
+    setCurrentSideIndex(0)
+    setRemainingSeconds(sideDurations[0])
     setTimerState('idle')
-  }, [clearTimerInterval, duration])
+    setTransitionMessage('')
+  }, [clearTimerInterval, clearTransitionTimeout, sideDurations])
 
   // Auto-start if prop is set
   useEffect(() => {
@@ -71,7 +110,7 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
         setBufferSeconds(prev => {
           if (prev <= 1) {
             clearTimerInterval()
-            setRemainingSeconds(duration)
+            setRemainingSeconds(sideDurations[0])
             setTimerState('running')
             return 0
           }
@@ -85,7 +124,7 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
         clearTimerInterval()
       }
     }
-  }, [timerState, clearTimerInterval, duration])
+  }, [timerState, clearTimerInterval, sideDurations])
 
   // Timer countdown logic
   useEffect(() => {
@@ -94,11 +133,38 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
         setRemainingSeconds(prev => {
           if (prev <= 1) {
             clearTimerInterval()
-            setTimerState('completed')
-            playTimerComplete()
-            vibrate([100, 50, 100, 50, 100]) // Triple vibration pattern
-            onComplete?.()
-            return 0
+
+            // Check if there are more sides to complete
+            if (isMultiSided && currentSideIndex < numSides - 1) {
+              // Transition to next side
+              const nextSideIndex = currentSideIndex + 1
+              const nextSideLabel = sideLabels![nextSideIndex]
+
+              // Play transition sound (2 beeps) and double vibration
+              playSideTransition()
+              vibrate([100, 50, 100]) // Double vibration pattern
+
+              // Show transition message
+              setTransitionMessage(`Switching to ${nextSideLabel}...`)
+              setTimerState('transitioning')
+
+              // After 1.5 seconds, start next side
+              transitionTimeoutRef.current = window.setTimeout(() => {
+                setCurrentSideIndex(nextSideIndex)
+                setRemainingSeconds(sideDurations[nextSideIndex])
+                setTransitionMessage('')
+                setTimerState('running')
+              }, 1500)
+
+              return 0
+            } else {
+              // All sides completed
+              setTimerState('completed')
+              playTimerComplete()
+              vibrate([100, 50, 100, 50, 100]) // Triple vibration pattern
+              onComplete?.()
+              return 0
+            }
           }
           return prev - 1
         })
@@ -110,20 +176,24 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
         clearTimerInterval()
       }
     }
-  }, [timerState, clearTimerInterval, playTimerComplete, vibrate, onComplete])
+  }, [timerState, clearTimerInterval, playTimerComplete, playSideTransition, vibrate, onComplete, isMultiSided, currentSideIndex, numSides, sideLabels, sideDurations])
 
-  // Reset when duration changes (new activity)
+  // Reset when duration or side config changes (new activity)
   useEffect(() => {
-    setRemainingSeconds(duration)
+    clearTransitionTimeout()
+    setCurrentSideIndex(0)
+    setRemainingSeconds(sideDurations[0])
     setTimerState('idle')
-  }, [duration])
+    setTransitionMessage('')
+  }, [duration, side, clearTransitionTimeout])
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       clearTimerInterval()
+      clearTransitionTimeout()
     }
-  }, [clearTimerInterval])
+  }, [clearTimerInterval, clearTransitionTimeout])
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60)
@@ -131,17 +201,50 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
+  // Calculate overall progress for multi-sided timers (used for progress bar)
+  const calculateOverallProgress = (): number => {
+    if (!isMultiSided) {
+      return ((sideDurations[0] - remainingSeconds) / sideDurations[0]) * 100
+    }
+
+    // Calculate total elapsed time across all sides
+    let elapsedTime = 0
+    for (let i = 0; i < currentSideIndex; i++) {
+      elapsedTime += sideDurations[i]
+    }
+    // Add elapsed time on current side
+    elapsedTime += sideDurations[currentSideIndex] - remainingSeconds
+
+    return (elapsedTime / duration) * 100
+  }
+
   const isCompleted = timerState === 'completed'
   const isRunning = timerState === 'running'
   const isPaused = timerState === 'paused'
   const isIdle = timerState === 'idle'
   const isBuffer = timerState === 'buffer'
+  const isTransitioning = timerState === 'transitioning'
+
+  // Get current side label
+  const currentSideLabel = isMultiSided ? sideLabels![currentSideIndex] : null
 
   return (
     <div className={`activity-timer ${isCompleted ? 'completed' : ''}`}>
+      {/* Side indicator for multi-sided timers */}
+      {isMultiSided && !isIdle && !isBuffer && (
+        <div className="side-indicator">
+          <span className="side-label">{currentSideLabel}</span>
+          <span className="side-progress">Side {currentSideIndex + 1} of {numSides}</span>
+        </div>
+      )}
+
       {isBuffer ? (
         <div className="timer-countdown buffer">
           {bufferSeconds}
+        </div>
+      ) : isTransitioning ? (
+        <div className="timer-countdown transitioning">
+          ⏳
         </div>
       ) : (
         <div className={`timer-countdown ${isCompleted ? 'flash' : ''} ${isPaused ? 'paused' : ''}`}>
@@ -149,9 +252,23 @@ function ActivityTimer({ duration, onComplete, autoStart = false }: ActivityTime
         </div>
       )}
 
+      {/* Progress bar for multi-sided timers */}
+      {isMultiSided && !isIdle && !isBuffer && (
+        <div className="timer-progress-bar">
+          <div
+            className="timer-progress-fill"
+            style={{ width: `${calculateOverallProgress()}%` }}
+          />
+        </div>
+      )}
+
       <div className="timer-controls">
         {isBuffer && (
           <div className="buffer-message">Get ready...</div>
+        )}
+
+        {isTransitioning && (
+          <div className="transition-message">{transitionMessage}</div>
         )}
 
         {isIdle && (

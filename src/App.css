@@ -1684,6 +1684,86 @@ button:focus-visible,
 }
 
 /* ================================
+   MULTI-SIDED TIMER STYLES
+   ================================ */
+
+/* Timer progress bar (for multi-sided timers) */
+.timer-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.timer-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50 0%, #81c784 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease-out;
+}
+
+/* Transition state styling */
+.timer-countdown.transitioning {
+  color: #64b5f6;
+  font-size: 3.5rem;
+  animation: pulse 0.75s ease-in-out infinite;
+}
+
+.transition-message {
+  font-size: 1.25rem;
+  color: #64b5f6;
+  font-weight: 600;
+  text-align: center;
+  animation: fadeInOut 1.5s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+}
+
+/* Small screen adjustments for multi-sided timer */
+@media (max-width: 359px) {
+  .timer-countdown.transitioning {
+    font-size: 2.5rem;
+  }
+
+  .transition-message {
+    font-size: 1rem;
+  }
+}
+
+/* Landscape adjustments for multi-sided timer */
+@media (orientation: landscape) and (max-height: 500px) {
+  .timer-countdown.transitioning {
+    font-size: 2.5rem;
+  }
+
+  .transition-message {
+    font-size: 1rem;
+  }
+
+  .timer-progress-bar {
+    height: 6px;
+  }
+}
+
+/* ================================
    TIMER BUFFER STYLES
    ================================ */
 

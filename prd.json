@@ -21,7 +21,7 @@
         "No references to sound effects remain in codebase",
         "App works without any audio files"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [],
       "files": [
@@ -60,7 +60,7 @@
         "Update VoiceContext to be synthesis-only",
         "No recognition-related code remains"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [],
       "files": [

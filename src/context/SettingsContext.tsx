@@ -7,7 +7,6 @@ interface Settings {
   timerBufferTime: number // seconds to add before timer starts (countdown)
   // Voice settings
   voiceCountingEnabled: boolean // Enable voice counting during exercises
-  voiceCommandsEnabled: boolean // Enable voice commands (Chrome/Edge only)
   voiceCountingPace: number // Seconds between voice counts (1-5, default: 2)
   voiceVolume: number // Voice volume (0-1, default: 1.0)
   voiceRate: number // Voice speed (0.5-2, default: 1.0)
@@ -34,7 +33,6 @@ const DEFAULT_SETTINGS: Settings = {
   timerBufferTime: 3,
   // Voice settings defaults
   voiceCountingEnabled: false,
-  voiceCommandsEnabled: false,
   voiceCountingPace: 2, // 2 seconds between counts
   voiceVolume: 1.0,
   voiceRate: 1.0,
@@ -50,7 +48,9 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       if (stored) {
         const parsed = JSON.parse(stored)
         // Merge with defaults to handle new settings added in future versions
-        return { ...DEFAULT_SETTINGS, ...parsed }
+        // Also remove deprecated voiceCommandsEnabled if present
+        const { voiceCommandsEnabled: _removed, ...rest } = parsed
+        return { ...DEFAULT_SETTINGS, ...rest }
       }
       return DEFAULT_SETTINGS
     } catch {

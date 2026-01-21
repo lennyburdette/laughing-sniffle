@@ -5,7 +5,7 @@ import { useVoice } from '../context/VoiceContext'
 function Settings() {
   const navigate = useNavigate()
   const { settings, updateSetting, resetSettings } = useSettings()
-  const { synthesisAvailable, recognitionAvailable, speak, isSpeaking } = useVoice()
+  const { synthesisAvailable, speak, isSpeaking } = useVoice()
 
   const handleToggle = (key: 'vibrationEnabled') => {
     updateSetting(key, !settings[key])
@@ -27,7 +27,7 @@ function Settings() {
     navigate('/')
   }
 
-  const handleVoiceToggle = (key: 'voiceCountingEnabled' | 'voiceCommandsEnabled' | 'autoStartVoiceCounting') => {
+  const handleVoiceToggle = (key: 'voiceCountingEnabled' | 'autoStartVoiceCounting') => {
     updateSetting(key, !settings[key])
   }
 
@@ -172,32 +172,6 @@ function Settings() {
                 onClick={() => handleVoiceToggle('voiceCountingEnabled')}
                 aria-pressed={settings.voiceCountingEnabled}
                 aria-label={settings.voiceCountingEnabled ? 'Disable voice counting' : 'Enable voice counting'}
-              >
-                <span className="toggle-knob" />
-              </button>
-            </div>
-
-            <div className="setting-item">
-              <div className="setting-info">
-                <span className="setting-label">
-                  Voice Commands
-                  {recognitionAvailable ? (
-                    <span className="availability-badge available">Available</span>
-                  ) : (
-                    <span className="availability-badge unavailable">Not available</span>
-                  )}
-                </span>
-                <span className="setting-description">
-                  Control the app with voice commands
-                  {!recognitionAvailable && ' (Chrome/Edge only, not iOS)'}
-                </span>
-              </div>
-              <button
-                className={`toggle-btn ${settings.voiceCommandsEnabled ? 'active' : ''}`}
-                onClick={() => handleVoiceToggle('voiceCommandsEnabled')}
-                disabled={!recognitionAvailable}
-                aria-pressed={settings.voiceCommandsEnabled}
-                aria-label={settings.voiceCommandsEnabled ? 'Disable voice commands' : 'Enable voice commands'}
               >
                 <span className="toggle-knob" />
               </button>

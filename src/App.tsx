@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { TimerProvider } from './context/TimerContext'
 import { WorkoutProvider } from './context/WorkoutContext'
-import { SoundProvider } from './context/SoundContext'
 import { VoiceProvider } from './context/VoiceContext'
 import { WakeLockProvider } from './context/WakeLockContext'
 import { OfflineProvider } from './context/OfflineContext'
@@ -20,8 +19,7 @@ function App() {
     <SettingsProvider>
       <OfflineProvider>
         <WakeLockProvider>
-          <SoundProvider>
-            <VoiceProvider>
+          <VoiceProvider>
               <TimerProvider>
                 <WorkoutProvider>
                   <BrowserRouter>
@@ -37,8 +35,7 @@ function App() {
                   </BrowserRouter>
                 </WorkoutProvider>
               </TimerProvider>
-            </VoiceProvider>
-          </SoundProvider>
+          </VoiceProvider>
         </WakeLockProvider>
       </OfflineProvider>
     </SettingsProvider>

@@ -1,0 +1,326 @@
+{
+  "version": "2.0",
+  "project": {
+    "name": "Snowboard Prep PWA - Bug Fixes",
+    "description": "QA-identified bug fixes for iOS sound, multi-sided timers, voice counting, and UX improvements"
+  },
+  "tasks": [
+    {
+      "id": "task-019",
+      "title": "Fix iOS sound effects and silent mode bypass",
+      "description": "Replace Web Audio API with HTML5 audio elements to fix iOS PWA sound issues and bypass silent mode. Sounds should always play when app is open, regardless of device silent switch.",
+      "criteria": [
+        "Generate MP3 audio files for all sounds (timer-complete, side-transition, set-complete, click)",
+        "Audio files placed in /src/assets/sounds/",
+        "SoundContext.tsx updated to use HTML5 <audio> elements instead of Web Audio API oscillators",
+        "Preload audio files on context mount",
+        "Add playSideTransition() sound function for timer side transitions",
+        "Sounds play reliably on iOS 26 PWA with silent mode enabled",
+        "Sounds work on timer completion (not direct user interaction)",
+        "No regression on Android/desktop browsers",
+        "Fallback to Web Audio API if audio files fail to load"
+      ],
+      "status": "completed",
+      "priority": "critical",
+      "dependencies": [],
+      "files": [
+        "/src/context/SoundContext.tsx",
+        "/src/assets/sounds/*.wav",
+        "/src/vite-env.d.ts",
+        "/scripts/generate-sounds.cjs"
+      ],
+      "metadata": {
+        "estimatedComplexity": "medium",
+        "testingPlatforms": [
+          "iOS 26 PWA",
+          "Safari Desktop",
+          "Chrome Android",
+          "Chrome Desktop"
+        ]
+      }
+    },
+    {
+      "id": "task-020",
+      "title": "Add visual auto-advance countdown indicator",
+      "description": "Add circular progress countdown overlay showing when app will auto-advance to next activity, eliminating confusion about manual vs automatic advancement",
+      "criteria": [
+        "Auto-advance overlay appears after activity completion (when not last activity)",
+        "Circular progress ring shows 3-second countdown",
+        "Large countdown number displayed in center",
+        "Text shows 'Auto-advancing to next activity...'",
+        "GO NOW button allows immediate advancement",
+        "Overlay doesn't appear on last activity (requires manual FINISH)",
+        "Rest period screen (if configured) takes precedence over auto-advance countdown",
+        "Smooth fade-in/out animations",
+        "Navigation button labels updated for clarity (SKIP ACTIVITY, FINISH WORKOUT)"
+      ],
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [],
+      "files": [
+        "/src/components/ActivityScreen.tsx",
+        "/src/App.css"
+      ],
+      "metadata": {
+        "estimatedComplexity": "low",
+        "testingPlatforms": [
+          "iOS",
+          "Android",
+          "Desktop"
+        ]
+      }
+    },
+    {
+      "id": "task-021",
+      "title": "Implement auto-switching multi-sided timer",
+      "description": "Enhance ActivityTimer to automatically switch between left/right sides for timed exercises, splitting duration evenly and providing clear visual/audio feedback during transitions",
+      "criteria": [
+        "ActivityTimer accepts new props: side, sideLabels",
+        "Timer splits duration between sides (e.g., 60s = 30s left + 30s right)",
+        "Side indicator shows current side label and progress (Side 1 of 2)",
+        "Timer auto-transitions to next side when current side completes",
+        "1.5 second transition pause between sides",
+        "Transition sound plays (2 beeps, not 3)",
+        "Transition vibration (double, not triple)",
+        "Transition message displays: 'Switching to [Side Name]...'",
+        "Progress bar shows overall completion across all sides",
+        "Handles odd duration splits (e.g., 35s / 2 = 17s + 18s)",
+        "Supports 3+ sided activities",
+        "Single-sided activities work unchanged (regression test)",
+        "Pause/resume works on any side",
+        "Reset returns to first side",
+        "Buffer time only applies before first side",
+        "ActivityScreen passes side props to ActivityTimer"
+      ],
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [
+        "task-019"
+      ],
+      "files": [
+        "/src/components/ActivityTimer.tsx",
+        "/src/components/ActivityScreen.tsx",
+        "/src/context/SoundContext.tsx",
+        "/src/App.css"
+      ],
+      "metadata": {
+        "estimatedComplexity": "medium",
+        "testingPlatforms": [
+          "iOS",
+          "Android",
+          "Desktop"
+        ]
+      }
+    },
+    {
+      "id": "task-022",
+      "title": "Create VoiceContext for Web Speech API",
+      "description": "Create a new context to manage Web Speech API for voice synthesis (counting out loud) and voice recognition (commands). Handle browser compatibility and graceful degradation.",
+      "criteria": [
+        "VoiceContext.tsx created with provider and hook",
+        "Detect SpeechSynthesis availability (works on all browsers)",
+        "Detect SpeechRecognition availability (Chrome/Edge only, not iOS Safari)",
+        "speak() function for voice output with configurable rate, pitch, volume",
+        "cancelSpeech() to stop current speech",
+        "startListening() for voice recognition with command callback",
+        "stopListening() to stop voice recognition",
+        "isSpeaking and isListening state tracking",
+        "Handle webkit prefixes for Safari compatibility",
+        "iOS limitation documented (voice counting works, commands don't)",
+        "Error handling for permission denied, not supported, recognition failures",
+        "Automatic recognition restart on errors",
+        "Command normalization (lowercase, trim)",
+        "Export VoiceContextType interface"
+      ],
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [],
+      "files": [
+        "/src/context/VoiceContext.tsx"
+      ],
+      "metadata": {
+        "estimatedComplexity": "medium",
+        "testingPlatforms": [
+          "Chrome Desktop",
+          "Chrome Android",
+          "Safari Desktop",
+          "Safari iOS",
+          "Firefox",
+          "Edge"
+        ]
+      }
+    },
+    {
+      "id": "task-023",
+      "title": "Add voice settings to SettingsContext",
+      "description": "Extend Settings interface with voice-related configuration options and ensure they persist to localStorage",
+      "criteria": [
+        "voiceCountingEnabled: boolean added (default: false)",
+        "voiceCommandsEnabled: boolean added (default: false)",
+        "voiceCountingPace: number added (default: 2 seconds, range: 1-5)",
+        "voiceVolume: number added (default: 1.0, range: 0-1)",
+        "voiceRate: number added (default: 1.0, range: 0.5-2)",
+        "voicePitch: number added (default: 1.0, range: 0.5-2)",
+        "autoStartVoiceCounting: boolean added (default: false)",
+        "Settings persist to localStorage",
+        "Type definitions updated"
+      ],
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [
+        "task-022"
+      ],
+      "files": [
+        "/src/context/SettingsContext.tsx"
+      ],
+      "metadata": {
+        "estimatedComplexity": "low",
+        "testingPlatforms": [
+          "All"
+        ]
+      }
+    },
+    {
+      "id": "task-024",
+      "title": "Implement voice counting in RepCounter",
+      "description": "Add automatic voice counting to RepCounter that counts reps out loud at configurable pace, replacing the need for manual tapping during exercises",
+      "criteria": [
+        "Import and use VoiceContext in RepCounter",
+        "voiceCountingActive state tracks if voice counting is running",
+        "Voice counting interval advances reps automatically at configured pace",
+        "Speaks rep number on each count ('1', '2', '3', etc.)",
+        "Voice counting stops when activity completes",
+        "Voice counting stops when paused",
+        "Voice counting interval cleanup on unmount",
+        "Start/Stop Voice Counting button added to UI",
+        "Visual indicator shows when voice counting is active",
+        "Manual NEXT REP button remains as fallback",
+        "Works with multi-sided exercises",
+        "autoStartVoiceCounting setting respected",
+        "Only works when voiceCountingEnabled and synthesisAvailable",
+        "Graceful degradation if voice not supported"
+      ],
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [
+        "task-022",
+        "task-023"
+      ],
+      "files": [
+        "/src/components/RepCounter.tsx"
+      ],
+      "metadata": {
+        "estimatedComplexity": "medium",
+        "testingPlatforms": [
+          "Chrome Desktop",
+          "Chrome Android",
+          "Safari iOS",
+          "Firefox"
+        ]
+      }
+    },
+    {
+      "id": "task-025",
+      "title": "Implement voice commands in RepCounter",
+      "description": "Add voice command recognition to RepCounter allowing hands-free rep advancement via spoken commands like 'next', 'count', 'pause', 'resume'",
+      "criteria": [
+        "Voice recognition starts when voiceCommandsEnabled and recognitionAvailable",
+        "Recognizes commands: 'next', 'rep', 'count', 'go' (advance rep)",
+        "Recognizes commands: 'pause', 'stop' (pause voice counting)",
+        "Recognizes commands: 'resume', 'start', 'continue' (resume voice counting)",
+        "Command normalization (lowercase, trim)",
+        "Visual listening indicator (pulsing microphone icon)",
+        "Voice recognition cleanup on unmount",
+        "Only available on Chrome/Edge (graceful degradation on iOS/Safari/Firefox)",
+        "Permission handling with user-friendly error messages",
+        "Automatic recognition restart on errors",
+        "Debounce repeated commands"
+      ],
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [
+        "task-024"
+      ],
+      "files": [
+        "/src/components/RepCounter.tsx",
+        "/src/App.css"
+      ],
+      "metadata": {
+        "estimatedComplexity": "medium",
+        "testingPlatforms": [
+          "Chrome Desktop",
+          "Chrome Android",
+          "Edge"
+        ]
+      }
+    },
+    {
+      "id": "task-026",
+      "title": "Add Voice Assistance section to Settings UI",
+      "description": "Create settings UI for voice features with toggles, sliders, browser compatibility indicators, and test buttons",
+      "criteria": [
+        "Voice Assistance section added to Settings page",
+        "Browser compatibility warning shown if voice not supported",
+        "Voice Counting toggle with availability indicator",
+        "Voice Commands toggle with iOS unavailability note",
+        "Counting Pace selector (1s, 2s, 3s, 4s, 5s buttons)",
+        "Auto-start Voice Counting toggle",
+        "Voice Volume slider (0-100%)",
+        "Voice Speed slider (0.5x-2x)",
+        "Voice Pitch slider (0.5-2x)",
+        "Test Voice button with immediate feedback",
+        "Settings UI shows/hides based on voice availability",
+        "Clear labeling and descriptions",
+        "Accessible controls",
+        "Settings save immediately on change"
+      ],
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [
+        "task-023"
+      ],
+      "files": [
+        "/src/pages/Settings.tsx"
+      ],
+      "metadata": {
+        "estimatedComplexity": "medium",
+        "testingPlatforms": [
+          "Chrome Desktop",
+          "Safari iOS",
+          "Firefox"
+        ]
+      }
+    },
+    {
+      "id": "task-027",
+      "title": "Add VoiceProvider to App component hierarchy",
+      "description": "Integrate VoiceProvider into the App.tsx provider hierarchy and add CSS styling for voice UI elements",
+      "criteria": [
+        "VoiceProvider added to App.tsx after SoundProvider",
+        "Provider hierarchy correct and functional",
+        "CSS added for .voice-listening-indicator with pulse animation",
+        "CSS added for .voice-control-btn and .voice-control-btn.active",
+        "CSS added for .compatibility-warning",
+        "CSS added for .pace-options and .pace-options button",
+        "Animations smooth and performant",
+        "Styles match app theme",
+        "Voice UI elements accessible"
+      ],
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [
+        "task-026"
+      ],
+      "files": [
+        "/src/App.tsx",
+        "/src/App.css"
+      ],
+      "metadata": {
+        "estimatedComplexity": "low",
+        "testingPlatforms": [
+          "All"
+        ]
+      }
+    }
+  ]
+}

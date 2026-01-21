@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useCallback, useEffect } from 'rea
 import type { ReactNode } from 'react'
 
 interface Settings {
-  soundEnabled: boolean
   vibrationEnabled: boolean
   restTimeBetweenActivities: number // in seconds, 0 = disabled
   timerBufferTime: number // seconds to add before timer starts (countdown)
@@ -30,7 +29,6 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 const SETTINGS_STORAGE_KEY = 'snowboard-prep-settings'
 
 const DEFAULT_SETTINGS: Settings = {
-  soundEnabled: true,
   vibrationEnabled: true,
   restTimeBetweenActivities: 0,
   timerBufferTime: 3,

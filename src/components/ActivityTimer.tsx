@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { useSound } from '../context/SoundContext'
 import { useSettings } from '../context/SettingsContext'
 import type { SideType } from '../data/workoutTypes'
 
@@ -42,7 +41,6 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
   const [transitionMessage, setTransitionMessage] = useState('')
   const intervalRef = useRef<number | null>(null)
   const transitionTimeoutRef = useRef<number | null>(null)
-  const { playTimerComplete, playSideTransition, vibrate } = useSound()
   const { settings } = useSettings()
 
   const clearTimerInterval = useCallback(() => {
@@ -140,10 +138,6 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
               const nextSideIndex = currentSideIndex + 1
               const nextSideLabel = sideLabels![nextSideIndex]
 
-              // Play transition sound (2 beeps) and double vibration
-              playSideTransition()
-              vibrate([100, 50, 100]) // Double vibration pattern
-
               // Show transition message
               setTransitionMessage(`Switching to ${nextSideLabel}...`)
               setTimerState('transitioning')
@@ -160,8 +154,6 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
             } else {
               // All sides completed
               setTimerState('completed')
-              playTimerComplete()
-              vibrate([100, 50, 100, 50, 100]) // Triple vibration pattern
               onComplete?.()
               return 0
             }
@@ -176,7 +168,7 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
         clearTimerInterval()
       }
     }
-  }, [timerState, clearTimerInterval, playTimerComplete, playSideTransition, vibrate, onComplete, isMultiSided, currentSideIndex, numSides, sideLabels, sideDurations])
+  }, [timerState, clearTimerInterval, onComplete, isMultiSided, currentSideIndex, numSides, sideLabels, sideDurations])
 
   // Reset when duration or side config changes (new activity)
   useEffect(() => {

@@ -1,0 +1,18 @@
+- remove sound effects and just use voice assistance.
+- remove voice commands since it doesn't work on ios.
+- for voice assistance:
+  - say "start" at the beginning and start counting at "one" to indicate a rep is complete
+  - say "last one" instead of the penultimate number
+  - say "switch sides" between sides
+  - for pace slower than 2 seconds, say "and" at the half second
+  - say "next activity" during the countdown buffer
+- for timed activities
+  - say "start" when the timer starts
+  - say "switch sides" between sides
+  - pause for the countdown buffer, then say "start" again on the second side
+  - say "done" when the timer ends
+  - for timers greater that 10 seconds, say "five seconds left" when there are five seconds left
+- remove the illustrations to save vertical space. the words are good enough
+- combine the voice assistance pace UI elements on a workout screen into one element.
+  - show "set pace" if no pace is set. otherwise, show the pace, and it should also be a button to set the pace
+  - add "-" and "+" buttons on the left and right to decrement and increment the pace by 0.2 seconds

@@ -1,46 +1,37 @@
 import { useNavigate } from 'react-router-dom'
 import { useSettings } from '../context/SettingsContext'
-import { useSound } from '../context/SoundContext'
 import { useVoice } from '../context/VoiceContext'
 
 function Settings() {
   const navigate = useNavigate()
   const { settings, updateSetting, resetSettings } = useSettings()
-  const { playClick } = useSound()
   const { synthesisAvailable, recognitionAvailable, speak, isSpeaking } = useVoice()
 
-  const handleToggle = (key: 'soundEnabled' | 'vibrationEnabled') => {
-    playClick()
+  const handleToggle = (key: 'vibrationEnabled') => {
     updateSetting(key, !settings[key])
   }
 
   const handleRestTimeChange = (value: number) => {
-    playClick()
     updateSetting('restTimeBetweenActivities', value)
   }
 
   const handleBufferTimeChange = (value: number) => {
-    playClick()
     updateSetting('timerBufferTime', value)
   }
 
   const handleReset = () => {
-    playClick()
     resetSettings()
   }
 
   const handleBack = () => {
-    playClick()
     navigate('/')
   }
 
   const handleVoiceToggle = (key: 'voiceCountingEnabled' | 'voiceCommandsEnabled' | 'autoStartVoiceCounting') => {
-    playClick()
     updateSetting(key, !settings[key])
   }
 
   const handleVoicePaceChange = (value: number) => {
-    playClick()
     updateSetting('voiceCountingPace', value)
   }
 
@@ -57,7 +48,6 @@ function Settings() {
   }
 
   const handleTestVoice = () => {
-    playClick()
     if (synthesisAvailable && !isSpeaking) {
       speak('1, 2, 3, 4, 5', {
         rate: settings.voiceRate,
@@ -100,22 +90,7 @@ function Settings() {
       </div>
 
       <div className="settings-section">
-        <h2 className="settings-section-title">Sound & Feedback</h2>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <span className="setting-label">Sound Effects</span>
-            <span className="setting-description">Play sounds when timers complete</span>
-          </div>
-          <button
-            className={`toggle-btn ${settings.soundEnabled ? 'active' : ''}`}
-            onClick={() => handleToggle('soundEnabled')}
-            aria-pressed={settings.soundEnabled}
-            aria-label={settings.soundEnabled ? 'Disable sound effects' : 'Enable sound effects'}
-          >
-            <span className="toggle-knob" />
-          </button>
-        </div>
+        <h2 className="settings-section-title">Feedback</h2>
 
         <div className="setting-item">
           <div className="setting-info">

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTimer } from '../context/TimerContext'
 import { useWorkout } from '../context/WorkoutContext'
-import { useSound } from '../context/SoundContext'
 import { useWakeLock } from '../context/WakeLockContext'
 import { workout } from '../data'
 import type { Section } from '../data/workoutTypes'
@@ -21,7 +20,6 @@ function Home() {
     isWorkoutStarted,
     goToActivity
   } = useWorkout()
-  const { isMuted, toggleMute } = useSound()
   const { request: requestWakeLock } = useWakeLock()
 
   const [showWeeklyView, setShowWeeklyView] = useState(false)
@@ -85,16 +83,6 @@ function Home() {
     <div className="home-screen">
       {/* Top Actions Bar */}
       <div className="home-top-actions">
-        {/* Sound Toggle */}
-        <button
-          className="sound-toggle"
-          onClick={toggleMute}
-          aria-label={isMuted ? 'Unmute sounds' : 'Mute sounds'}
-        >
-          {isMuted ? '🔇' : '🔊'}
-          <span className="sound-label">{isMuted ? 'Sound Off' : 'Sound On'}</span>
-        </button>
-
         {/* Settings Button */}
         <button
           className="settings-btn"

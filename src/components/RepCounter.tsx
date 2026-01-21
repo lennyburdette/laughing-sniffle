@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
-import { useSound } from '../context/SoundContext'
 import { useVoice } from '../context/VoiceContext'
 import { useSettings } from '../context/SettingsContext'
 import PaceSetter from './PaceSetter'
@@ -22,7 +21,6 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
   const [voiceCountingActive, setVoiceCountingActive] = useState(false)
   const [voiceListeningActive, setVoiceListeningActive] = useState(false)
   const [showPaceSetter, setShowPaceSetter] = useState(false)
-  const { playSetComplete, playClick, vibrate } = useSound()
   const { synthesisAvailable, speak, cancelSpeech, recognitionAvailable, isListening, startListening, stopListening, recognitionError } = useVoice()
   const { settings, getActivityPace, setActivityPace } = useSettings()
 
@@ -92,16 +90,11 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       volume: settings.voiceVolume
     })
 
-    // Play click sound
-    playClick()
-
     // Advance the rep
     if (isLastRepNow && isLastSideNow) {
       // All reps and sides complete - handled by advanceRep which will be called
       // We need to actually update state here
       setRepState('completed')
-      playSetComplete()
-      vibrate([100, 50, 100, 50, 100])
       stopVoiceCounting()
       setTimeout(() => {
         onComplete?.()
@@ -114,7 +107,7 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       // Just advance the rep
       setCurrentRep(prev => prev + 1)
     }
-  }, [targetCount, totalSides, speak, settings.voiceRate, settings.voicePitch, settings.voiceVolume, playClick, playSetComplete, vibrate, onComplete, stopVoiceCounting])
+  }, [targetCount, totalSides, speak, settings.voiceRate, settings.voicePitch, settings.voiceVolume, onComplete, stopVoiceCounting])
 
   // Start voice counting
   const startVoiceCounting = useCallback(() => {
@@ -172,13 +165,9 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       const isLastRepNow = rep === targetCount
       const isLastSideNow = sideIdx === totalSides - 1
 
-      playClick()
-
       if (isLastRepNow && isLastSideNow) {
         // All reps and sides complete
         setRepState('completed')
-        playSetComplete()
-        vibrate([100, 50, 100, 50, 100])
         stopVoiceCounting()
         setTimeout(() => {
           onComplete?.()
@@ -209,7 +198,7 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       }
       return
     }
-  }, [targetCount, totalSides, playClick, playSetComplete, vibrate, onComplete, voiceCountingActive, voiceCountingAvailable, stopVoiceCounting, startVoiceCounting])
+  }, [targetCount, totalSides, onComplete, voiceCountingActive, voiceCountingAvailable, stopVoiceCounting, startVoiceCounting])
 
   // Start voice command listening
   const startVoiceListening = useCallback(() => {
@@ -290,13 +279,9 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
   }, [])
 
   const advanceRep = useCallback(() => {
-    playClick()
-
     if (isLastRep && isLastSide) {
       // All reps and sides complete
       setRepState('completed')
-      playSetComplete()
-      vibrate([100, 50, 100, 50, 100]) // Triple vibration pattern
       // Auto-advance after a short delay
       setTimeout(() => {
         onComplete?.()
@@ -309,7 +294,7 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       // Just advance the rep count
       setCurrentRep(prev => prev + 1)
     }
-  }, [isLastRep, isLastSide, playClick, playSetComplete, vibrate, onComplete])
+  }, [isLastRep, isLastSide, onComplete])
 
   const reset = useCallback(() => {
     stopVoiceCounting()

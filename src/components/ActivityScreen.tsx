@@ -16,6 +16,8 @@ interface ActivityScreenProps {
   isCompleted?: boolean
 }
 
+const AUTO_ADVANCE_DURATION = 3 // seconds
+
 function ActivityScreen({
   activity,
   currentIndex,
@@ -31,25 +33,71 @@ function ActivityScreen({
   const [restSeconds, setRestSeconds] = useState(0)
   const restIntervalRef = useRef<number | null>(null)
 
-  // Clear rest interval on unmount or activity change
+  // Auto-advance countdown state
+  const [isAutoAdvancing, setIsAutoAdvancing] = useState(false)
+  const [autoAdvanceSeconds, setAutoAdvanceSeconds] = useState(AUTO_ADVANCE_DURATION)
+  const autoAdvanceIntervalRef = useRef<number | null>(null)
+
+  // Clear intervals on unmount or activity change
   useEffect(() => {
     return () => {
       if (restIntervalRef.current !== null) {
         clearInterval(restIntervalRef.current)
         restIntervalRef.current = null
       }
+      if (autoAdvanceIntervalRef.current !== null) {
+        clearInterval(autoAdvanceIntervalRef.current)
+        autoAdvanceIntervalRef.current = null
+      }
     }
   }, [])
 
-  // Reset rest state when activity changes
+  // Reset rest and auto-advance state when activity changes
   useEffect(() => {
     setIsResting(false)
     setRestSeconds(0)
+    setIsAutoAdvancing(false)
+    setAutoAdvanceSeconds(AUTO_ADVANCE_DURATION)
     if (restIntervalRef.current !== null) {
       clearInterval(restIntervalRef.current)
       restIntervalRef.current = null
     }
+    if (autoAdvanceIntervalRef.current !== null) {
+      clearInterval(autoAdvanceIntervalRef.current)
+      autoAdvanceIntervalRef.current = null
+    }
   }, [activity.id])
+
+  // Start auto-advance countdown
+  const startAutoAdvance = useCallback(() => {
+    setIsAutoAdvancing(true)
+    setAutoAdvanceSeconds(AUTO_ADVANCE_DURATION)
+
+    autoAdvanceIntervalRef.current = window.setInterval(() => {
+      setAutoAdvanceSeconds(prev => {
+        if (prev <= 1) {
+          if (autoAdvanceIntervalRef.current !== null) {
+            clearInterval(autoAdvanceIntervalRef.current)
+            autoAdvanceIntervalRef.current = null
+          }
+          setIsAutoAdvancing(false)
+          onNext()
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+  }, [onNext])
+
+  // Handle immediate advancement (GO NOW button)
+  const handleGoNow = useCallback(() => {
+    if (autoAdvanceIntervalRef.current !== null) {
+      clearInterval(autoAdvanceIntervalRef.current)
+      autoAdvanceIntervalRef.current = null
+    }
+    setIsAutoAdvancing(false)
+    onNext()
+  }, [onNext])
 
   const handleActivityComplete = useCallback(() => {
     // Notify parent that activity is complete (for tracking)
@@ -57,9 +105,16 @@ function ActivityScreen({
       onActivityComplete()
     }
 
-    // If rest time is configured and not the last activity, show rest countdown
+    // Check if this is the last activity
     const isLast = currentIndex === totalActivities - 1
-    if (settings.restTimeBetweenActivities > 0 && !isLast) {
+
+    // Last activity: no auto-advance (user must manually click FINISH WORKOUT)
+    if (isLast) {
+      return
+    }
+
+    // If rest time is configured, show rest countdown (takes precedence over auto-advance)
+    if (settings.restTimeBetweenActivities > 0) {
       setIsResting(true)
       setRestSeconds(settings.restTimeBetweenActivities)
 
@@ -78,12 +133,10 @@ function ActivityScreen({
         })
       }, 1000)
     } else {
-      // Auto-advance to next after a short delay on completion
-      setTimeout(() => {
-        onNext()
-      }, 500)
+      // Show auto-advance countdown overlay
+      startAutoAdvance()
     }
-  }, [onNext, onActivityComplete, settings.restTimeBetweenActivities, currentIndex, totalActivities])
+  }, [onNext, onActivityComplete, settings.restTimeBetweenActivities, currentIndex, totalActivities, startAutoAdvance])
 
   const skipRest = useCallback(() => {
     if (restIntervalRef.current !== null) {
@@ -123,6 +176,9 @@ function ActivityScreen({
     return 10 // fallback
   }
 
+  // Calculate progress for circular indicator (0 to 1, inverted for countdown effect)
+  const autoAdvanceProgress = (AUTO_ADVANCE_DURATION - autoAdvanceSeconds) / AUTO_ADVANCE_DURATION
+
   // Show rest screen between activities
   if (isResting) {
     return (
@@ -142,6 +198,46 @@ function ActivityScreen({
 
   return (
     <div className={`activity-screen-container ${isCompleted ? 'activity-completed' : ''}`}>
+      {/* Auto-advance countdown overlay */}
+      {isAutoAdvancing && (
+        <div className="auto-advance-overlay">
+          <div className="auto-advance-content">
+            <div className="auto-advance-ring-container">
+              <svg className="auto-advance-ring" viewBox="0 0 100 100">
+                {/* Background circle */}
+                <circle
+                  className="auto-advance-ring-bg"
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  strokeWidth="6"
+                />
+                {/* Progress circle */}
+                <circle
+                  className="auto-advance-ring-progress"
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                  style={{
+                    strokeDasharray: `${2 * Math.PI * 45}`,
+                    strokeDashoffset: `${2 * Math.PI * 45 * (1 - autoAdvanceProgress)}`,
+                  }}
+                />
+              </svg>
+              <div className="auto-advance-countdown">{autoAdvanceSeconds}</div>
+            </div>
+            <p className="auto-advance-message">Auto-advancing to next activity...</p>
+            <button className="auto-advance-go-btn" onClick={handleGoNow}>
+              GO NOW
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Progress indicator */}
       <div className="activity-progress">
         <span className="progress-text">
@@ -217,7 +313,7 @@ function ActivityScreen({
           className="nav-btn next-btn"
           onClick={isLastActivity ? onComplete : onNext}
         >
-          {isLastActivity ? 'FINISH' : 'SKIP'}
+          {isLastActivity ? 'FINISH WORKOUT' : 'SKIP ACTIVITY'}
         </button>
       </div>
     </div>

@@ -6,6 +6,14 @@ interface Settings {
   vibrationEnabled: boolean
   restTimeBetweenActivities: number // in seconds, 0 = disabled
   timerBufferTime: number // seconds to add before timer starts (countdown)
+  // Voice settings
+  voiceCountingEnabled: boolean // Enable voice counting during exercises
+  voiceCommandsEnabled: boolean // Enable voice commands (Chrome/Edge only)
+  voiceCountingPace: number // Seconds between voice counts (1-5, default: 2)
+  voiceVolume: number // Voice volume (0-1, default: 1.0)
+  voiceRate: number // Voice speed (0.5-2, default: 1.0)
+  voicePitch: number // Voice pitch (0.5-2, default: 1.0)
+  autoStartVoiceCounting: boolean // Auto-start voice counting when activity begins
 }
 
 interface SettingsContextType {
@@ -23,6 +31,14 @@ const DEFAULT_SETTINGS: Settings = {
   vibrationEnabled: true,
   restTimeBetweenActivities: 0,
   timerBufferTime: 3,
+  // Voice settings defaults
+  voiceCountingEnabled: false,
+  voiceCommandsEnabled: false,
+  voiceCountingPace: 2, // 2 seconds between counts
+  voiceVolume: 1.0,
+  voiceRate: 1.0,
+  voicePitch: 1.0,
+  autoStartVoiceCounting: false,
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {

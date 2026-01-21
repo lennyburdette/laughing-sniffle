@@ -92,7 +92,7 @@
         "Buffer time only applies before first side",
         "ActivityScreen passes side props to ActivityTimer"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [
         "task-019"
@@ -132,7 +132,7 @@
         "Command normalization (lowercase, trim)",
         "Export VoiceContextType interface"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [],
       "files": [
@@ -165,7 +165,7 @@
         "Settings persist to localStorage",
         "Type definitions updated"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [
         "task-022"

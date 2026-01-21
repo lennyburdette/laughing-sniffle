@@ -25,9 +25,11 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
 
   // Refs for voice counting interval
   const voiceIntervalRef = useRef<number | null>(null)
+  const andIntervalRef = useRef<number | null>(null) // For "and" at half-pace for slow counts
   const currentRepRef = useRef(currentRep)
   const currentSideIndexRef = useRef(currentSideIndex)
   const isCompletedRef = useRef(false)
+  const hasSpokenStartRef = useRef(false) // Track if we've said "start"
 
   // Determine the sides to track
   const sides = side === 'each' && sideLabels ? sideLabels : [null]
@@ -58,9 +60,20 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       clearInterval(voiceIntervalRef.current)
       voiceIntervalRef.current = null
     }
+    if (andIntervalRef.current !== null) {
+      clearTimeout(andIntervalRef.current)
+      andIntervalRef.current = null
+    }
     setVoiceCountingActive(false)
     cancelSpeech()
   }, [cancelSpeech])
+
+  // Get voice options
+  const getVoiceOptions = useCallback(() => ({
+    rate: settings.voiceRate,
+    pitch: settings.voicePitch,
+    volume: settings.voiceVolume
+  }), [settings.voiceRate, settings.voicePitch, settings.voiceVolume])
 
   // Voice counting tick function - advances rep and speaks
   const voiceCountTick = useCallback(() => {
@@ -74,32 +87,62 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
     const sideIdx = currentSideIndexRef.current
     const isLastRepNow = rep === targetCount
     const isLastSideNow = sideIdx === totalSides - 1
+    // Penultimate rep: for 10 reps, this is rep 9. For 2 reps, this is rep 1. For 1 rep, there's no penultimate.
+    const isPenultimateRep = targetCount > 1 && rep === targetCount - 1
 
-    // Speak the current rep number
-    speak(String(rep), {
-      rate: settings.voiceRate,
-      pitch: settings.voicePitch,
-      volume: settings.voiceVolume
-    })
+    // Determine what to speak
+    let textToSpeak: string
+    if (isPenultimateRep) {
+      // Say "last one" instead of the penultimate number
+      textToSpeak = 'last one'
+    } else {
+      textToSpeak = String(rep)
+    }
+
+    // Speak the rep count (or "last one")
+    speak(textToSpeak, getVoiceOptions())
 
     // Advance the rep
     if (isLastRepNow && isLastSideNow) {
-      // All reps and sides complete - handled by advanceRep which will be called
-      // We need to actually update state here
+      // All reps and sides complete
       setRepState('completed')
       stopVoiceCounting()
+      // Say "next activity" before advancing (with delay to let the last count speak)
+      setTimeout(() => {
+        speak('next activity', getVoiceOptions())
+      }, 600)
       setTimeout(() => {
         onComplete?.()
       }, 1500)
     } else if (isLastRepNow && !isLastSideNow) {
-      // Move to next side
+      // Move to next side - say "switch sides" after a brief delay
+      setTimeout(() => {
+        speak('switch sides', getVoiceOptions())
+      }, 500)
       setCurrentSideIndex(prev => prev + 1)
       setCurrentRep(1)
     } else {
       // Just advance the rep
       setCurrentRep(prev => prev + 1)
     }
-  }, [targetCount, totalSides, speak, settings.voiceRate, settings.voicePitch, settings.voiceVolume, onComplete, stopVoiceCounting])
+  }, [targetCount, totalSides, speak, getVoiceOptions, onComplete, stopVoiceCounting])
+
+  // Schedule "and" at half-pace mark for slow counts (pace > 2 seconds)
+  const scheduleAndSpeech = useCallback((pace: number) => {
+    if (pace > 2 && !isCompletedRef.current) {
+      // Clear any existing "and" timeout
+      if (andIntervalRef.current !== null) {
+        clearTimeout(andIntervalRef.current)
+      }
+      // Schedule "and" at half the pace interval
+      const halfPaceMs = (pace * 1000) / 2
+      andIntervalRef.current = window.setTimeout(() => {
+        if (!isCompletedRef.current && voiceIntervalRef.current !== null) {
+          speak('and', getVoiceOptions())
+        }
+      }, halfPaceMs)
+    }
+  }, [speak, getVoiceOptions])
 
   // Start voice counting
   const startVoiceCounting = useCallback(() => {
@@ -107,21 +150,42 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       return
     }
 
-    // Clear any existing interval
+    // Clear any existing intervals
     if (voiceIntervalRef.current !== null) {
       clearInterval(voiceIntervalRef.current)
     }
+    if (andIntervalRef.current !== null) {
+      clearTimeout(andIntervalRef.current)
+    }
 
     setVoiceCountingActive(true)
+    hasSpokenStartRef.current = true
 
-    // Immediately do first count
-    voiceCountTick()
+    // Say "start" first
+    speak('start', getVoiceOptions())
 
-    // Set up interval for subsequent counts - use activity-specific pace
+    // Get the pace for this activity
     const pace = getActivityPace(activityId)
     const intervalMs = pace * 1000
-    voiceIntervalRef.current = window.setInterval(voiceCountTick, intervalMs)
-  }, [voiceCountingAvailable, repState, voiceCountTick, getActivityPace, activityId])
+
+    // Wait a bit for "start" to be spoken, then start counting
+    setTimeout(() => {
+      if (isCompletedRef.current) return
+
+      // Do first count
+      voiceCountTick()
+
+      // Schedule "and" for slow paces
+      scheduleAndSpeech(pace)
+
+      // Set up interval for subsequent counts
+      voiceIntervalRef.current = window.setInterval(() => {
+        voiceCountTick()
+        // Schedule "and" after each count for slow paces
+        scheduleAndSpeech(pace)
+      }, intervalMs)
+    }, 600) // Delay to let "start" be spoken
+  }, [voiceCountingAvailable, repState, voiceCountTick, getActivityPace, activityId, speak, getVoiceOptions, scheduleAndSpeech])
 
   // Toggle voice counting
   const toggleVoiceCounting = useCallback(() => {
@@ -164,6 +228,10 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
         clearInterval(voiceIntervalRef.current)
         voiceIntervalRef.current = null
       }
+      if (andIntervalRef.current !== null) {
+        clearTimeout(andIntervalRef.current)
+        andIntervalRef.current = null
+      }
     }
   }, [])
 
@@ -190,6 +258,7 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
     setCurrentRep(1)
     setCurrentSideIndex(0)
     setRepState('counting')
+    hasSpokenStartRef.current = false
   }, [stopVoiceCounting])
 
   // Reset when props change (new activity)

@@ -2098,3 +2098,149 @@ button:focus-visible,
 .activity-screen-container {
   position: relative;
 }
+
+/* ================================
+   VOICE COUNTING STYLES
+   ================================ */
+
+.voice-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.voice-control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(100, 181, 246, 0.2);
+  border: 2px solid rgba(100, 181, 246, 0.4);
+  border-radius: 12px;
+  color: #64b5f6;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  min-height: 52px;
+  min-width: 180px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.voice-control-btn:active {
+  transform: scale(0.96);
+}
+
+.voice-control-btn.active {
+  background: rgba(76, 175, 80, 0.3);
+  border-color: #4caf50;
+  color: #81c784;
+}
+
+.voice-icon {
+  font-size: 1.25rem;
+}
+
+.voice-btn-text {
+  letter-spacing: 0.5px;
+}
+
+.voice-indicator-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 10px;
+  height: 10px;
+  background: #4caf50;
+  border-radius: 50%;
+  animation: voicePulse 1s ease-in-out infinite;
+}
+
+@keyframes voicePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+.voice-active-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(76, 175, 80, 0.15);
+  border-radius: 20px;
+}
+
+.voice-pulse {
+  width: 12px;
+  height: 12px;
+  background: #4caf50;
+  border-radius: 50%;
+  animation: voicePulse 1s ease-in-out infinite;
+}
+
+.voice-status-text {
+  font-size: 0.875rem;
+  color: #81c784;
+  font-weight: 500;
+}
+
+.voice-unavailable-message {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Responsive voice controls */
+@media (max-width: 359px) {
+  .voice-control-btn {
+    min-width: 160px;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    min-height: 48px;
+  }
+
+  .voice-icon {
+    font-size: 1rem;
+  }
+
+  .voice-status-text {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .voice-controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .voice-control-btn {
+    min-width: 140px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    min-height: 44px;
+  }
+
+  .voice-active-indicator {
+    padding: 0.375rem 0.75rem;
+  }
+
+  .voice-status-text {
+    font-size: 0.75rem;
+  }
+}

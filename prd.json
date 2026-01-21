@@ -200,7 +200,7 @@
         "Only works when voiceCountingEnabled and synthesisAvailable",
         "Graceful degradation if voice not supported"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [
         "task-022",

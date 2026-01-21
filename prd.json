@@ -274,7 +274,7 @@
         "Accessible controls",
         "Settings save immediately on change"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [
         "task-023"
@@ -306,7 +306,7 @@
         "Styles match app theme",
         "Voice UI elements accessible"
       ],
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [
         "task-026"

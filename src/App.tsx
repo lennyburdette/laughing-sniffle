@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { TimerProvider } from './context/TimerContext'
 import { WorkoutProvider } from './context/WorkoutContext'
 import { SoundProvider } from './context/SoundContext'
+import { VoiceProvider } from './context/VoiceContext'
 import { WakeLockProvider } from './context/WakeLockContext'
 import { OfflineProvider } from './context/OfflineContext'
 import { SettingsProvider } from './context/SettingsContext'
@@ -20,21 +21,23 @@ function App() {
       <OfflineProvider>
         <WakeLockProvider>
           <SoundProvider>
-            <TimerProvider>
-              <WorkoutProvider>
-                <BrowserRouter>
-                  <OfflineIndicator />
-                  <OverallTimer />
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/activity/:activityIndex" element={<Activity />} />
-                    <Route path="/complete" element={<Complete />} />
-                    <Route path="/settings" element={<Settings />} />
-                  </Routes>
-                  <InstallPrompt />
-                </BrowserRouter>
-              </WorkoutProvider>
-            </TimerProvider>
+            <VoiceProvider>
+              <TimerProvider>
+                <WorkoutProvider>
+                  <BrowserRouter>
+                    <OfflineIndicator />
+                    <OverallTimer />
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/activity/:activityIndex" element={<Activity />} />
+                      <Route path="/complete" element={<Complete />} />
+                      <Route path="/settings" element={<Settings />} />
+                    </Routes>
+                    <InstallPrompt />
+                  </BrowserRouter>
+                </WorkoutProvider>
+              </TimerProvider>
+            </VoiceProvider>
           </SoundProvider>
         </WakeLockProvider>
       </OfflineProvider>

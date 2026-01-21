@@ -14,12 +14,15 @@ interface Settings {
   voiceRate: number // Voice speed (0.5-2, default: 1.0)
   voicePitch: number // Voice pitch (0.5-2, default: 1.0)
   autoStartVoiceCounting: boolean // Auto-start voice counting when activity begins
+  activityPaces: Record<string, number> // Per-activity paces in seconds (activity.id -> pace)
 }
 
 interface SettingsContextType {
   settings: Settings
   updateSetting: <K extends keyof Settings>(key: K, value: Settings[K]) => void
   resetSettings: () => void
+  getActivityPace: (activityId: string) => number
+  setActivityPace: (activityId: string, pace: number) => void
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined)
@@ -39,6 +42,7 @@ const DEFAULT_SETTINGS: Settings = {
   voiceRate: 1.0,
   voicePitch: 1.0,
   autoStartVoiceCounting: false,
+  activityPaces: {}, // Empty by default
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
@@ -76,11 +80,27 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     setSettings(DEFAULT_SETTINGS)
   }, [])
 
+  const getActivityPace = useCallback((activityId: string): number => {
+    return settings.activityPaces[activityId] ?? settings.voiceCountingPace
+  }, [settings.activityPaces, settings.voiceCountingPace])
+
+  const setActivityPace = useCallback((activityId: string, pace: number) => {
+    setSettings(prev => ({
+      ...prev,
+      activityPaces: {
+        ...prev.activityPaces,
+        [activityId]: pace,
+      },
+    }))
+  }, [])
+
   return (
     <SettingsContext.Provider value={{
       settings,
       updateSetting,
       resetSettings,
+      getActivityPace,
+      setActivityPace,
     }}>
       {children}
     </SettingsContext.Provider>

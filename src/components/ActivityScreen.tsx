@@ -294,6 +294,7 @@ function ActivityScreen({
           />
         ) : (
           <RepCounter
+            activityId={activity.id}
             targetCount={getCount()}
             side={activity.side}
             sideLabels={activity.sideLabels}

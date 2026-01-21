@@ -2,8 +2,10 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { useSound } from '../context/SoundContext'
 import { useVoice } from '../context/VoiceContext'
 import { useSettings } from '../context/SettingsContext'
+import PaceSetter from './PaceSetter'
 
 interface RepCounterProps {
+  activityId: string
   targetCount: number
   side?: 'each' | null
   sideLabels?: string[]
@@ -13,15 +15,16 @@ interface RepCounterProps {
 
 type RepState = 'counting' | 'completed'
 
-function RepCounter({ targetCount, side, sideLabels, onComplete, isPaused = false }: RepCounterProps) {
+function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isPaused = false }: RepCounterProps) {
   const [currentRep, setCurrentRep] = useState(1)
   const [currentSideIndex, setCurrentSideIndex] = useState(0)
   const [repState, setRepState] = useState<RepState>('counting')
   const [voiceCountingActive, setVoiceCountingActive] = useState(false)
   const [voiceListeningActive, setVoiceListeningActive] = useState(false)
+  const [showPaceSetter, setShowPaceSetter] = useState(false)
   const { playSetComplete, playClick, vibrate } = useSound()
   const { synthesisAvailable, speak, cancelSpeech, recognitionAvailable, isListening, startListening, stopListening, recognitionError } = useVoice()
-  const { settings } = useSettings()
+  const { settings, getActivityPace, setActivityPace } = useSettings()
 
   // Refs for voice counting interval
   const voiceIntervalRef = useRef<number | null>(null)
@@ -129,10 +132,11 @@ function RepCounter({ targetCount, side, sideLabels, onComplete, isPaused = fals
     // Immediately do first count
     voiceCountTick()
 
-    // Set up interval for subsequent counts
-    const intervalMs = settings.voiceCountingPace * 1000
+    // Set up interval for subsequent counts - use activity-specific pace
+    const pace = getActivityPace(activityId)
+    const intervalMs = pace * 1000
     voiceIntervalRef.current = window.setInterval(voiceCountTick, intervalMs)
-  }, [voiceCountingAvailable, repState, voiceCountTick, settings.voiceCountingPace])
+  }, [voiceCountingAvailable, repState, voiceCountTick, getActivityPace, activityId])
 
   // Toggle voice counting
   const toggleVoiceCounting = useCallback(() => {
@@ -369,10 +373,17 @@ function RepCounter({ targetCount, side, sideLabels, onComplete, isPaused = fals
             <div className="voice-active-indicator">
               <span className="voice-pulse"></span>
               <span className="voice-status-text">
-                Counting every {settings.voiceCountingPace}s
+                Counting every {getActivityPace(activityId).toFixed(1)}s
               </span>
             </div>
           )}
+          <button
+            className="pace-setter-btn"
+            onClick={() => setShowPaceSetter(true)}
+            title="Set custom pace for this activity"
+          >
+            ⏱️ Set Pace
+          </button>
         </div>
       )}
 
@@ -436,6 +447,15 @@ function RepCounter({ targetCount, side, sideLabels, onComplete, isPaused = fals
           </>
         )}
       </div>
+
+      {/* Pace Setter Modal */}
+      {showPaceSetter && (
+        <PaceSetter
+          currentPace={getActivityPace(activityId)}
+          onPaceSet={(pace) => setActivityPace(activityId, pace)}
+          onClose={() => setShowPaceSetter(false)}
+        />
+      )}
     </div>
   )
 }

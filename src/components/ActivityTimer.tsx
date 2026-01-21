@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useSettings } from '../context/SettingsContext'
+import { useVoice } from '../context/VoiceContext'
 import type { SideType } from '../data/workoutTypes'
 
 interface ActivityTimerProps {
@@ -42,6 +43,22 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
   const intervalRef = useRef<number | null>(null)
   const transitionTimeoutRef = useRef<number | null>(null)
   const { settings } = useSettings()
+  const { synthesisAvailable, speak } = useVoice()
+
+  // Track whether we've said "five seconds left" for each side to avoid repeating
+  const hasSaidFiveSecondsRef = useRef(false)
+  // Track whether we've said "start" for the current side
+  const hasSaidStartRef = useRef(false)
+
+  // Voice assistance is available if voice counting is enabled and synthesis is available
+  const voiceAssistanceEnabled = settings.voiceCountingEnabled && synthesisAvailable
+
+  // Get voice options from settings
+  const getVoiceOptions = useCallback(() => ({
+    rate: settings.voiceRate,
+    pitch: settings.voicePitch,
+    volume: settings.voiceVolume
+  }), [settings.voiceRate, settings.voicePitch, settings.voiceVolume])
 
   const clearTimerInterval = useCallback(() => {
     if (intervalRef.current !== null) {
@@ -61,6 +78,9 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
     if (timerState === 'idle' || timerState === 'completed') {
       // Reset to first side for multi-sided timers
       setCurrentSideIndex(0)
+      // Reset voice tracking refs
+      hasSaidFiveSecondsRef.current = false
+      hasSaidStartRef.current = false
       // If buffer time is set, start with buffer countdown (only before first side)
       if (settings.timerBufferTime > 0) {
         setBufferSeconds(settings.timerBufferTime)
@@ -68,9 +88,14 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
       } else {
         setRemainingSeconds(sideDurations[0])
         setTimerState('running')
+        // Say "start" when timer begins (no buffer)
+        if (voiceAssistanceEnabled) {
+          speak('start', getVoiceOptions())
+          hasSaidStartRef.current = true
+        }
       }
     }
-  }, [timerState, sideDurations, settings.timerBufferTime])
+  }, [timerState, sideDurations, settings.timerBufferTime, voiceAssistanceEnabled, speak, getVoiceOptions])
 
   const pause = useCallback(() => {
     if (timerState === 'running') {
@@ -92,6 +117,9 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
     setRemainingSeconds(sideDurations[0])
     setTimerState('idle')
     setTransitionMessage('')
+    // Reset voice tracking refs
+    hasSaidFiveSecondsRef.current = false
+    hasSaidStartRef.current = false
   }, [clearTimerInterval, clearTransitionTimeout, sideDurations])
 
   // Auto-start if prop is set
@@ -108,8 +136,13 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
         setBufferSeconds(prev => {
           if (prev <= 1) {
             clearTimerInterval()
-            setRemainingSeconds(sideDurations[0])
+            setRemainingSeconds(sideDurations[currentSideIndex])
             setTimerState('running')
+            // Say "start" when buffer ends and timer actually begins
+            if (voiceAssistanceEnabled && !hasSaidStartRef.current) {
+              speak('start', getVoiceOptions())
+              hasSaidStartRef.current = true
+            }
             return 0
           }
           return prev - 1
@@ -122,13 +155,22 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
         clearTimerInterval()
       }
     }
-  }, [timerState, clearTimerInterval, sideDurations])
+  }, [timerState, clearTimerInterval, sideDurations, currentSideIndex, voiceAssistanceEnabled, speak, getVoiceOptions])
 
   // Timer countdown logic
   useEffect(() => {
     if (timerState === 'running') {
       intervalRef.current = window.setInterval(() => {
         setRemainingSeconds(prev => {
+          // Voice announcement for "five seconds left" (only for timers > 10 seconds)
+          // Check the current side's duration, announce at 5 seconds remaining
+          const currentSideDuration = sideDurations[currentSideIndex]
+          if (voiceAssistanceEnabled && currentSideDuration > 10 && prev === 6 && !hasSaidFiveSecondsRef.current) {
+            // We're about to tick from 6 to 5, so at next second it will be 5
+            speak('five seconds left', getVoiceOptions())
+            hasSaidFiveSecondsRef.current = true
+          }
+
           if (prev <= 1) {
             clearTimerInterval()
 
@@ -138,21 +180,50 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
               const nextSideIndex = currentSideIndex + 1
               const nextSideLabel = sideLabels![nextSideIndex]
 
+              // Say "switch sides" for multi-sided activities
+              if (voiceAssistanceEnabled) {
+                speak('switch sides', getVoiceOptions())
+              }
+
               // Show transition message
               setTransitionMessage(`Switching to ${nextSideLabel}...`)
               setTimerState('transitioning')
 
-              // After 1.5 seconds, start next side
-              transitionTimeoutRef.current = window.setTimeout(() => {
-                setCurrentSideIndex(nextSideIndex)
-                setRemainingSeconds(sideDurations[nextSideIndex])
-                setTransitionMessage('')
-                setTimerState('running')
-              }, 1500)
+              // Reset the "five seconds left" tracker for next side
+              hasSaidFiveSecondsRef.current = false
+              // Reset start tracker for next side
+              hasSaidStartRef.current = false
+
+              // Check if we should have a buffer countdown between sides
+              if (settings.timerBufferTime > 0) {
+                // After brief transition, start buffer countdown for next side
+                transitionTimeoutRef.current = window.setTimeout(() => {
+                  setCurrentSideIndex(nextSideIndex)
+                  setBufferSeconds(settings.timerBufferTime)
+                  setTransitionMessage('')
+                  setTimerState('buffer')
+                }, 1500)
+              } else {
+                // After 1.5 seconds, start next side directly
+                transitionTimeoutRef.current = window.setTimeout(() => {
+                  setCurrentSideIndex(nextSideIndex)
+                  setRemainingSeconds(sideDurations[nextSideIndex])
+                  setTransitionMessage('')
+                  setTimerState('running')
+                  // Say "start" for the new side
+                  if (voiceAssistanceEnabled) {
+                    speak('start', getVoiceOptions())
+                    hasSaidStartRef.current = true
+                  }
+                }, 1500)
+              }
 
               return 0
             } else {
-              // All sides completed
+              // All sides completed - say "done"
+              if (voiceAssistanceEnabled) {
+                speak('done', getVoiceOptions())
+              }
               setTimerState('completed')
               onComplete?.()
               return 0
@@ -168,7 +239,7 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
         clearTimerInterval()
       }
     }
-  }, [timerState, clearTimerInterval, onComplete, isMultiSided, currentSideIndex, numSides, sideLabels, sideDurations])
+  }, [timerState, clearTimerInterval, onComplete, isMultiSided, currentSideIndex, numSides, sideLabels, sideDurations, voiceAssistanceEnabled, speak, getVoiceOptions, settings.timerBufferTime])
 
   // Reset when duration or side config changes (new activity)
   useEffect(() => {
@@ -177,6 +248,9 @@ function ActivityTimer({ duration, onComplete, autoStart = false, side, sideLabe
     setRemainingSeconds(sideDurations[0])
     setTimerState('idle')
     setTransitionMessage('')
+    // Reset voice tracking refs
+    hasSaidFiveSecondsRef.current = false
+    hasSaidStartRef.current = false
   }, [duration, side, clearTransitionTimeout])
 
   // Cleanup on unmount

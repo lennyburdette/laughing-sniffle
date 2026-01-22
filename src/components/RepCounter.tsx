@@ -289,9 +289,9 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
   const progressPercentage = ((currentSideIndex * targetCount + currentRep) / (totalSides * targetCount)) * 100
 
   return (
-    <div className={`rep-counter ${isCompleted ? 'completed' : ''}`}>
+    <div className={`rep-counter ${isCompleted ? "completed" : ""}`}>
       {/* Side indicator for "each side" exercises */}
-      {side === 'each' && currentSideLabel && (
+      {side === "each" && currentSideLabel && (
         <div className="side-indicator">
           <span className="side-label">{currentSideLabel}</span>
           <span className="side-progress">
@@ -301,7 +301,7 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       )}
 
       {/* Large rep display */}
-      <div className={`rep-display ${isCompleted ? 'flash' : ''}`}>
+      <div className={`rep-display ${isCompleted ? "flash" : ""}`}>
         <span className="current-rep">{currentRep}</span>
         <span className="rep-separator">/</span>
         <span className="target-rep">{targetCount}</span>
@@ -319,12 +319,14 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       {voiceCountingAvailable && !isCompleted && (
         <div className="voice-controls">
           <button
-            className={`voice-control-btn ${voiceCountingActive ? 'active' : ''}`}
+            className={`voice-control-btn ${voiceCountingActive ? "active" : ""}`}
             onClick={toggleVoiceCounting}
           >
-            <span className="voice-icon">{voiceCountingActive ? '🔊' : '🔇'}</span>
+            <span className="voice-icon">
+              {voiceCountingActive ? "🔊" : "🔇"}
+            </span>
             <span className="voice-btn-text">
-              {voiceCountingActive ? 'STOP COUNTING' : 'START VOICE'}
+              {voiceCountingActive ? "STOP COUNTING" : "START VOICE"}
             </span>
             {voiceCountingActive && (
               <span className="voice-indicator-dot"></span>
@@ -346,7 +348,7 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
               onClick={() => setShowPaceSetter(true)}
               title="Tap to set custom pace"
             >
-              {currentPace > 0 ? `${currentPace.toFixed(1)}s` : 'set pace'}
+              {currentPace > 0 ? `${currentPace.toFixed(1)}s` : "set pace"}
             </button>
             <button
               className="pace-adjust-btn pace-increment"
@@ -357,15 +359,6 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
               +
             </button>
           </div>
-
-          {voiceCountingActive && (
-            <div className="voice-active-indicator">
-              <span className="voice-pulse"></span>
-              <span className="voice-status-text">
-                Counting every {currentPace.toFixed(1)}s
-              </span>
-            </div>
-          )}
         </div>
       )}
 
@@ -380,7 +373,7 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
       <div className="rep-controls">
         {!isCompleted && (
           <button className="rep-btn next-btn" onClick={advanceRep}>
-            {isLastRep && !isLastSide ? 'NEXT SIDE' : 'NEXT REP'}
+            {isLastRep && !isLastSide ? "NEXT SIDE" : "NEXT REP"}
           </button>
         )}
 
@@ -403,7 +396,7 @@ function RepCounter({ activityId, targetCount, side, sideLabels, onComplete, isP
         />
       )}
     </div>
-  )
+  );
 }
 
 export default RepCounter

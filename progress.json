@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "startedAt": "2026-01-20T15:51:28.179Z",
-  "completedAt": "2026-01-21T02:45:46.079Z",
+  "completedAt": "2026-01-21T16:47:15.384Z",
   "totalIterations": 19,
   "tasks": [
     {
@@ -569,60 +569,181 @@
       "commitHash": null,
       "iteration": 0,
       "logFile": "/Users/lenny/Development/hacking/routines/logs/task-027.log"
+    },
+    {
+      "taskId": "task-028",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T16:31:55.604Z",
+      "completedAt": "2026-01-21T16:31:56.148Z",
+      "duration": 0,
+      "summary": "** Removed all sound effect functionality from the Snowboard Prep PWA. Deleted SoundContext.tsx, removed SoundProvider from App.tsx, cleaned up sound-related code from ActivityTimer.tsx and RepCounter.tsx, removed the sound toggle from Home.tsx, removed sound effects settings from Settings.tsx and SettingsContext.tsx, deleted the /src/assets/sounds/ directory with all WAV files, and deleted the generate-sounds.cjs script. Voice assistance functionality remains fully intact for auditory feedback.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles without sound-related errors",
+        "Verify SoundContext is deleted: `ls src/context/SoundContext.tsx` should return \"No such file\"",
+        "Verify sounds directory is deleted: `ls src/assets/sounds/` should return \"No such file or directory\"",
+        "Verify no sound references remain: `grep -r \"useSound\\|SoundContext\\|playClick\\|playTimerComplete\" src/` should return no matches",
+        "Verify `grep \"soundEnabled\" src/` returns no matches",
+        "Verify voice assistance is intact: `grep \"VoiceProvider\\|useVoice\" src/` shows voice functionality still present in App.tsx and components",
+        "Check the build output shows \"PWA v1.2.0\" and \"precache 20 entries\" confirming app builds correctly"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-028.log"
+    },
+    {
+      "taskId": "task-029",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T16:36:11.133Z",
+      "completedAt": "2026-01-21T16:36:11.609Z",
+      "duration": 0,
+      "summary": "** Removed all voice commands (SpeechRecognition) functionality from the Snowboard Prep PWA. The SpeechRecognition API doesn't work on iOS Safari, so all recognition-related code was removed including: SpeechRecognition detection and state from VoiceContext.tsx, voice command handling from RepCounter.tsx, voice commands toggle from Settings UI, voiceCommandsEnabled setting from SettingsContext, and all voice-listening-indicator CSS styles. Voice counting (SpeechSynthesis) functionality remains fully intact for auditory rep counting during exercises.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles without voice-command errors",
+        "Verify no SpeechRecognition code remains: `grep -r \"recognitionAvailable\\|startListening\\|stopListening\\|isListening\" src/` should return no matches (except the localStorage migration comment)",
+        "Verify no voiceCommandsEnabled references: `grep -r \"voiceCommandsEnabled\" src/` returns only the localStorage migration code in SettingsContext.tsx",
+        "Verify no listening indicator CSS: `grep -r \"voice-listening\\|voice-command\\|mic-icon\\|listening-pulse\" src/App.css` should return no matches",
+        "Verify voice synthesis is intact: `grep \"synthesisAvailable\\|speak\\|useVoice\" src/` shows VoiceContext.tsx, RepCounter.tsx, Settings.tsx, and App.tsx still have synthesis functionality",
+        "Verify the build output shows \"PWA v1.2.0\" and \"precache 20 entries\" confirming app builds correctly"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-029.log"
+    },
+    {
+      "taskId": "task-030",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T16:39:11.631Z",
+      "completedAt": "2026-01-21T16:39:12.175Z",
+      "duration": 0,
+      "summary": "** Enhanced voice assistance for rep counting activities in RepCounter.tsx. Implemented all criteria: says 'start' when voice counting begins, counts from 'one', says 'last one' for penultimate rep, says 'switch sides' when transitioning between sides in multi-sided activities, says 'and' at half-second mark for paces slower than 2 seconds, and says 'next activity' when activity completes. Edge cases for 1 and 2 rep activities are handled, and auto-start voice counting continues to work correctly.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles",
+        "Verify 'start' is spoken: `grep \"speak('start'\" src/components/RepCounter.tsx` shows line 165",
+        "Verify 'last one' logic: `grep \"last one\" src/components/RepCounter.tsx` shows penultimate rep handling at lines 96-97",
+        "Verify 'switch sides' announcement: `grep \"switch sides\" src/components/RepCounter.tsx` shows side transition at line 120",
+        "Verify 'and' for slow paces: `grep \"pace > 2\" src/components/RepCounter.tsx` shows condition for adding 'and' at half-pace mark",
+        "Verify 'next activity' announcement: `grep \"next activity\" src/components/RepCounter.tsx` shows completion announcement at line 112",
+        "Verify edge case handling: `grep \"targetCount > 1\" src/components/RepCounter.tsx` shows 1-rep activities won't say \"last one\"",
+        "Verify auto-start works: `grep \"autoStartVoiceCounting\" src/components/RepCounter.tsx` shows auto-start logic preserved"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-030.log"
+    },
+    {
+      "taskId": "task-031",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T16:41:56.337Z",
+      "completedAt": "2026-01-21T16:41:57.007Z",
+      "duration": 0,
+      "summary": "** Enhanced voice assistance for timed activities in ActivityTimer.tsx. Implemented all criteria: says 'start' when timer begins, 'switch sides' when transitioning between sides in multi-sided activities, supports buffer countdown between sides with 'start' on new side, says 'five seconds left' at the 5-second mark for timers greater than 10 seconds, and says 'done' when timer completes. Voice assistance respects the voiceCountingEnabled setting and uses the VoiceContext speak() function with configurable voice options (rate, pitch, volume).",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully confirming TypeScript compiles",
+        "Verify 'start' is spoken: `grep \"speak('start'\" src/components/ActivityTimer.tsx` shows 3 occurrences (buffer end, no-buffer start, new side start)",
+        "Verify 'switch sides' is spoken: `grep \"speak('switch sides'\" src/components/ActivityTimer.tsx` confirms side transition announcement",
+        "Verify 'done' is spoken: `grep \"speak('done'\" src/components/ActivityTimer.tsx` confirms completion announcement",
+        "Verify 'five seconds left' is spoken: `grep \"speak('five seconds left'\" src/components/ActivityTimer.tsx` confirms 5-second warning for timers >10s",
+        "Verify voiceCountingEnabled setting is respected: `grep \"voiceCountingEnabled\" src/components/ActivityTimer.tsx` shows setting check",
+        "Verify VoiceContext is used: `grep \"useVoice\" src/components/ActivityTimer.tsx` shows import and usage",
+        "Verify buffer between sides: `grep -A 5 \"Check if we should have a buffer countdown between sides\" src/components/ActivityTimer.tsx` shows logic for buffer between sides"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-031.log"
+    },
+    {
+      "taskId": "task-033",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T16:44:49.235Z",
+      "completedAt": "2026-01-21T16:44:49.890Z",
+      "duration": 0,
+      "summary": "** Consolidated the voice assistance pace UI into a single unified component. Replaced the separate \"Set Pace\" button with a [- button] [pace value] [+ button] layout. The decrement and increment buttons adjust pace by 0.2 seconds within a 1.0s - 5.0s range, with buttons disabled at bounds. The center pace value button shows the current pace (e.g., \"2.0s\") or \"set pace\" if no pace is configured, and clicking it opens the existing tap-to-set PaceSetter modal. Added responsive CSS for mobile and landscape orientations with touch-friendly 48px button targets.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully with \"PWA v1.2.0\" and \"precache 20 entries\"",
+        "Verify consolidated pace UI exists: `grep \"pace-control-container\" src/components/RepCounter.tsx` shows the container div",
+        "Verify +/- buttons: `grep -E \"pace-adjust-btn|pace-decrement|pace-increment\" src/components/RepCounter.tsx` shows both adjustment buttons",
+        "Verify pace value button opens modal: `grep -A 2 \"pace-value-btn\" src/components/RepCounter.tsx` shows `onClick={() => setShowPaceSetter(true)}`",
+        "Verify pace constraints: `grep -E \"MIN_PACE|MAX_PACE|PACE_INCREMENT\" src/components/RepCounter.tsx` shows 1.0, 5.0, and 0.2 values",
+        "Verify buttons disabled at bounds: `grep \"disabled={currentPace\" src/components/RepCounter.tsx` shows min/max checks",
+        "Verify CSS styles: `grep -c \"pace-control-container\\|pace-adjust-btn\\|pace-value-btn\" src/App.css` returns 12+ occurrences",
+        "Verify responsive design: `grep -E \"@media.*pace-adjust\" src/App.css` shows responsive breakpoints"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-033.log"
+    },
+    {
+      "taskId": "task-032",
+      "title": "Unknown task",
+      "startedAt": "2026-01-21T16:47:12.953Z",
+      "completedAt": "2026-01-21T16:47:13.381Z",
+      "duration": 0,
+      "summary": "** Removed activity illustrations from the Snowboard Prep PWA to save vertical space. Removed the illustration display section from ActivityScreen.tsx including the getIllustration/getFallbackIcon imports, imageError/imageLoaded state management, and the illustration JSX. Removed all illustration-related CSS from App.css including responsive sizing media queries and landscape mode adjustments. Activity text descriptions remain visible and clear, and the layout adjusts properly with more vertical space now available for the timer/rep counter controls.",
+      "validationSteps": [
+        "Run `npm run build` - should complete successfully with \"PWA v1.2.0\" and \"precache 20 entries\"",
+        "Verify illustration display is removed: `grep \"activity-illustration\" src/components/ActivityScreen.tsx` should return no matches",
+        "Verify illustration imports are removed: `grep \"getIllustration\\|getFallbackIcon\" src/components/ActivityScreen.tsx` should return no matches",
+        "Verify illustration CSS is removed: `grep \"activity-illustration\\|illustration-placeholder\\|placeholder-icon\" src/App.css` should return no matches",
+        "Verify activity description remains: `grep \"activity-description\" src/components/ActivityScreen.tsx` should show the description paragraph",
+        "Verify no broken image references: `grep -r \"getIllustration\" src/components/` should return no matches"
+      ],
+      "commitHash": null,
+      "iteration": 0,
+      "logFile": "/Users/lenny/Development/hacking/routines/logs/task-032.log"
     }
   ],
   "iterations": [
     {
       "number": 1,
       "startedAt": "2026-01-20T15:51:28.201Z",
-      "completedAt": "2026-01-21T02:23:57.057Z",
+      "completedAt": "2026-01-21T16:31:56.149Z",
       "tasksCompleted": [
-        "task-019"
+        "task-028"
       ],
       "success": true
     },
     {
       "number": 2,
       "startedAt": "2026-01-20T15:54:25.822Z",
-      "completedAt": "2026-01-21T02:26:36.911Z",
+      "completedAt": "2026-01-21T16:36:11.610Z",
       "tasksCompleted": [
-        "task-020"
+        "task-029"
       ],
       "success": true
     },
     {
       "number": 3,
       "startedAt": "2026-01-20T15:56:43.429Z",
-      "completedAt": "2026-01-21T02:30:59.003Z",
+      "completedAt": "2026-01-21T16:39:12.176Z",
       "tasksCompleted": [
-        "task-021"
+        "task-030"
       ],
       "success": true
     },
     {
       "number": 4,
       "startedAt": "2026-01-20T15:59:34.003Z",
-      "completedAt": "2026-01-21T02:33:08.148Z",
+      "completedAt": "2026-01-21T16:41:57.008Z",
       "tasksCompleted": [
-        "task-022"
+        "task-031"
       ],
       "success": true
     },
     {
       "number": 5,
       "startedAt": "2026-01-20T16:01:28.471Z",
-      "completedAt": "2026-01-21T02:34:19.573Z",
+      "completedAt": "2026-01-21T16:44:49.891Z",
       "tasksCompleted": [
-        "task-023"
+        "task-033"
       ],
       "success": true
     },
     {
       "number": 6,
       "startedAt": "2026-01-20T16:03:37.548Z",
-      "completedAt": "2026-01-21T02:37:00.545Z",
+      "completedAt": "2026-01-21T16:47:13.381Z",
       "tasksCompleted": [
-        "task-024"
+        "task-032"
       ],
       "success": true
     },
@@ -814,6 +935,48 @@
     {
       "number": 1,
       "startedAt": "2026-01-21T16:25:47.429Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 2,
+      "startedAt": "2026-01-21T16:31:58.152Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 3,
+      "startedAt": "2026-01-21T16:36:13.612Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 4,
+      "startedAt": "2026-01-21T16:39:14.178Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 5,
+      "startedAt": "2026-01-21T16:41:59.010Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 6,
+      "startedAt": "2026-01-21T16:44:51.894Z",
+      "completedAt": null,
+      "tasksCompleted": [],
+      "success": false
+    },
+    {
+      "number": 7,
+      "startedAt": "2026-01-21T16:47:15.383Z",
       "completedAt": null,
       "tasksCompleted": [],
       "success": false
